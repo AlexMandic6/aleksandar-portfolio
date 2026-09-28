@@ -38,6 +38,8 @@ On 2026-09-28: lint, TypeScript (also after build) and production build passed; 
 
 The Playwright trace is at `test-results/visual/performance-trace.zip` after a full run. A local diagnostic observed one long task and a layout shift sum of about 0.0174 during the traced dev-server session. These are development diagnostics, not field Core Web Vitals or proof of production performance. The Playwright web server stops after the tests; run `npm run dev` for a persistent preview.
 
+The current browser tests check that the heading, project copy and links remain usable through motion, route changes and resizing. The reduced-motion check compares visible hero renders over time. Animation frames and the performance trace are review artifacts; the trace test also checks that local layout shift stays below 0.1. The 720px screenshot is named `home-viewport-720.png` because viewport narrowing does not exercise browser-native zoom.
+
 ## Before publication
 
 The owner has supplied email, phone, GitHub, LinkedIn and a CV for this local prototype. Before publication, still supply or approve:

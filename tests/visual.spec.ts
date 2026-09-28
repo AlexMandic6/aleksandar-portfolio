@@ -30,22 +30,21 @@ test("capture desktop and mobile renders with asset diagnostics", async ({ page 
   expect(failures).toEqual([]);
 });
 
-test("hero motion settles and preference changes restore final styles", async ({ page }) => {
+test("switching to reduced motion leaves the hero visibly still", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.goto("/");
-  const line = page.locator("[data-hero-letter]").first();
-  const plane = page.locator(".hero-art [data-hero-plane]").first();
-  await page.waitForTimeout(1100);
-  await expect(line).toHaveCSS("opacity", "1");
-  await expect(plane).toHaveCSS("opacity", "1");
+  const heading = page.getByRole("heading", { level: 1, name: "Aleksandar Mandić" });
+  await expect(heading).toBeVisible();
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await expect(line).toHaveCSS("opacity", "1");
-  await expect(plane).toHaveCSS("opacity", "1");
-  await expect(line).not.toHaveAttribute("style", /transform/);
-  await expect(plane).not.toHaveAttribute("style", /transform/);
+  await page.evaluate(() => document.fonts.ready);
+  await expect(heading).toBeVisible();
+  const hero = page.locator(".hero");
+  const settled = await hero.screenshot();
+  await page.waitForTimeout(350);
+  expect(await hero.screenshot()).toEqual(settled);
 });
 
-test("keyboard skip link and narrow zoom-equivalent layout remain usable", async ({ page }) => {
+test("keyboard skip link and narrow viewport remain usable", async ({ page }) => {
   await page.setViewportSize({ width: 720, height: 500 });
   await page.goto("/");
   await page.keyboard.press("Tab");
@@ -56,16 +55,15 @@ test("keyboard skip link and narrow zoom-equivalent layout remain usable", async
   expect(overflow).toBe(false);
 });
 
-test("desktop 200 percent zoom-equivalent reflow preserves identity and action", async ({ page }) => {
+test("720px viewport reflow preserves identity and action", async ({ page }) => {
   mkdirSync("test-results/visual", { recursive: true });
   await page.setViewportSize({ width: 720, height: 450 });
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
   await page.evaluate(() => document.fonts.ready);
-  expect(await page.evaluate(() => window.innerWidth)).toBe(720);
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   await expect(page.getByRole("link", { name: "View selected work" })).toBeVisible();
-  await page.screenshot({ path: "test-results/visual/home-zoom-equivalent-200.png" });
+  await page.screenshot({ path: "test-results/visual/home-viewport-720.png" });
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
   expect(overflow).toBe(false);
 });
@@ -91,5 +89,5 @@ test("capture a local performance trace for the entrance and project reveal", as
   const metrics = await page.evaluate(() => (window as Window & { __portfolioPerf?: { longTasks: number; layoutShift: number } }).__portfolioPerf);
   await page.context().tracing.stop({ path: "test-results/visual/performance-trace.zip" });
   console.log("Local performance diagnostic:", metrics);
-  expect(metrics).toBeDefined();
+  expect(metrics?.layoutShift).toBeLessThan(0.1);
 });

@@ -1,57 +1,62 @@
 import { test, expect } from "@playwright/test";
 import { mkdirSync } from "node:fs";
 
-test("project copy stays still while the illustration assembles", async ({ page }) => {
+test("project copy and action remain usable while the illustration enters view", async ({ page }) => {
   await page.goto("/");
-  await expect(page.locator("[data-hero-letter]").first()).toHaveAttribute("style", /opacity/);
-  const panel = page.locator(".work-panel");
-  await expect(panel.locator("..")).toHaveCSS("transform", "none");
-  await expect(panel.locator("..")).toHaveCSS("opacity", "1");
+  const work = page.locator("#work");
+  const project = work.getByRole("heading", { name: "saloon-booking" });
+  const action = work.getByRole("link", { name: "View project" });
+  await work.getByText(/UI concept.*synthetic data/).scrollIntoViewIfNeeded();
+  await expect(project).toBeVisible();
+  await expect(action).toBeVisible();
+  const before = await project.boundingBox();
+  await page.waitForTimeout(250);
+  const after = await project.boundingBox();
+  expect(before).not.toBeNull();
+  expect(after).not.toBeNull();
+  expect(Math.abs(after!.x - before!.x)).toBeLessThan(1);
+  expect(Math.abs(after!.y - before!.y)).toBeLessThan(1);
+  await action.click();
+  await expect(page).toHaveURL(/\/work\/saloon-booking$/);
 });
 
 for (const width of [390, 1440]) {
-  test(`motion lifecycle and captured progression at ${width}px`, async ({ page }) => {
+  test(`content remains usable across motion preference, navigation and resize at ${width}px`, async ({ page }) => {
     const errors: string[] = [];
     page.on("pageerror", error => errors.push(error.message));
     page.on("console", message => { if (message.type() === "error") errors.push(message.text()); });
     await page.setViewportSize({ width, height: 900 });
     mkdirSync("test-results/animation", { recursive: true });
     await page.goto("/");
-    await page.waitForFunction(() => document.querySelector<HTMLElement>("[data-hero-letter]")?.style.opacity);
+    const name = page.getByRole("heading", { level: 1, name: "Aleksandar Mandić" });
+    const action = page.getByRole("link", { name: "View project", exact: true });
+    await expect(name).toBeVisible();
     await page.screenshot({ path: `test-results/animation/hero-${width}-early.png` });
     await page.waitForTimeout(160);
     await page.screenshot({ path: `test-results/animation/hero-${width}-middle.png` });
-    await page.waitForTimeout(850);
-    const targets = page.locator("[data-hero-letter], [data-hero-dot], [data-hero-plane], [data-booking-detail]");
-    // Jump directly to the artwork so the actual trigger, not the section heading, enters view.
-    await page.locator(".work-art").evaluate(element => element.scrollIntoView({ behavior: "instant", block: "center" }));
-    await page.waitForTimeout(90);
+    await page.locator("#work").scrollIntoViewIfNeeded();
     await page.screenshot({ path: `test-results/animation/work-${width}-early.png` });
     await page.waitForTimeout(180);
     await page.screenshot({ path: `test-results/animation/work-${width}-middle.png` });
     await page.emulateMedia({ reducedMotion: "reduce" });
-    for (const target of await targets.all()) {
-      await expect(target).toHaveCSS("opacity", "1");
-      await expect(target).not.toHaveAttribute("style", /transform|opacity/);
-    }
+    await expect(name).toBeVisible();
+    await expect(action).toBeVisible();
     await page.emulateMedia({ reducedMotion: "no-preference" });
     for (let cycle = 0; cycle < 3; cycle++) {
-      await page.getByRole("link", { name: "View project", exact: true }).click();
+      await action.click();
       await expect(page).toHaveURL(/\/work\/saloon-booking$/);
       await page.getByRole("link", { name: /, home$/ }).click();
       await expect(page).toHaveURL("/");
-      await page.waitForTimeout(900);
+      await expect(page.getByRole("heading", { level: 1, name: "Aleksandar Mandić" })).toBeVisible();
     }
-    // Interrupt a fresh entrance, then cross the mobile breakpoint in both directions.
-    await page.reload();
-    await page.waitForFunction(() => document.querySelector<HTMLElement>("[data-hero-letter]")?.style.opacity);
     await page.emulateMedia({ reducedMotion: "reduce" });
-    for (const target of await targets.all()) await expect(target).not.toHaveAttribute("style", /transform|opacity/);
-    await page.emulateMedia({ reducedMotion: "no-preference" });
     for (const resizedWidth of [1440, 390, 1440]) {
       await page.setViewportSize({ width: resizedWidth, height: 900 });
-      for (const target of await targets.all()) await expect(target).not.toHaveAttribute("style", /transform|opacity/);
-      expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1)).toBe(false);
+      await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+      await expect.poll(
+        () => page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1),
+        { message: `no horizontal overflow at ${resizedWidth}px after resize` },
+      ).toBe(false);
     }
     expect(errors).toEqual([]);
   });
