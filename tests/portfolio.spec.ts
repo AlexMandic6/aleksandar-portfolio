@@ -78,8 +78,11 @@ test("core content and links survive without JavaScript", async ({ browser }) =>
   const page = await context.newPage();
   await page.goto("http://localhost:3000/");
   await expect(page.getByRole("heading", { level: 1 })).toHaveAccessibleName("Aleksandar Mandić");
+  await expect(page.locator(".hero-art .booking-scene")).toBeVisible();
+  await expect(page.locator("#work .booking-scene")).toBeVisible();
   await page.getByRole("link", { name: "View project", exact: true }).click();
   await expect(page.getByRole("heading", { level: 1 })).toContainText("saloon-booking");
+  await expect(page.locator(".case-visual .booking-scene")).toBeVisible();
   await context.close();
 });
 

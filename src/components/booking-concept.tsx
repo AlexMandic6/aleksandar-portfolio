@@ -1,7 +1,12 @@
-export function BookingConcept({ variant }: { variant: "hero" | "project" }) {
-  return <figure className="booking-figure">
+import { BookingConceptMotion } from "./booking-concept-motion";
+import "./booking-concept.css";
+
+export function BookingConcept({ placement }: { placement: "hero" | "featured" | "case-study" }) {
+  const variant = placement === "hero" ? "hero" : "project";
+  const motion = placement === "hero" ? "hero" : placement === "featured" ? "reveal" : undefined;
+  const content = <>
     <div className={`booking-scene booking-scene--${variant}`} aria-hidden="true">
-      <div className="booking-plane booking-service" data-hero-plane><div className="booking-surface">
+      <div className="booking-plane booking-service" data-booking-plane><div className="booking-surface">
         <div className="booking-bar"><i/><i/><i/></div>
         <div className="booking-inner">
           <div className="booking-kicker">01 / Select a service</div>
@@ -11,7 +16,7 @@ export function BookingConcept({ variant }: { variant: "hero" | "project" }) {
           <div className="service-row"><strong>Styling</strong><small>60 min</small></div>
         </div>
       </div></div>
-      <div className="booking-plane booking-calendar" data-hero-plane><div className="booking-surface">
+      <div className="booking-plane booking-calendar" data-booking-plane><div className="booking-surface">
         <div className="booking-bar"><i/><i/><i/></div>
         <div className="booking-inner">
           <div className="booking-kicker">02 / Choose a time</div>
@@ -19,7 +24,7 @@ export function BookingConcept({ variant }: { variant: "hero" | "project" }) {
           <div className="calendar-grid">{["M","T","W","T","F","S","S","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","1","2","3","4"].map((day, index) => <span data-booking-detail={day === "25" ? "" : undefined} className={day === "25" ? "picked" : ""} key={index}>{day}</span>)}</div>
         </div>
       </div></div>
-      <div className="booking-plane booking-summary" data-hero-plane><div className="booking-surface">
+      <div className="booking-plane booking-summary" data-booking-plane><div className="booking-surface">
         <div className="booking-inner">
           <div className="booking-kicker">03 / Your appointment</div>
           <div className="booking-title">The details</div>
@@ -29,5 +34,9 @@ export function BookingConcept({ variant }: { variant: "hero" | "project" }) {
       </div></div>
     </div>
     <figcaption className="concept-label eyebrow">UI concept — synthetic data<span className="sr-only">. An illustrative service selector, calendar and appointment summary.</span></figcaption>
-  </figure>;
+  </>;
+
+  return motion
+    ? <BookingConceptMotion motion={motion}>{content}</BookingConceptMotion>
+    : <figure className="booking-figure">{content}</figure>;
 }

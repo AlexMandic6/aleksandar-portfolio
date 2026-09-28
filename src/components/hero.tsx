@@ -18,7 +18,7 @@ export function Hero() {
         </h1>
         <div className="hero-meta"><p className="hero-role">{profile.role}</p><div><p className="hero-desc">{profile.summary}</p><Link href="#work" className="text-link hero-cta">View selected work <span className="arrow" aria-hidden="true">↗</span></Link></div></div>
       </div>
-      <div className="hero-art"><BookingConcept variant="hero" /></div>
+      <div className="hero-art"><BookingConcept placement="hero" /></div>
     </div>
   </section></HeroMotion>;
 }

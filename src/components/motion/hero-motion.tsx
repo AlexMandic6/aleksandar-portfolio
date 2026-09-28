@@ -18,7 +18,6 @@ export function HeroMotion({ children }: { children: React.ReactNode }) {
       entered = true;
       const desktop = context.conditions?.desktop;
       const lines = root.current!.querySelectorAll("[data-hero-line]");
-      const planes = root.current!.querySelectorAll("[data-hero-plane]");
       const timeline = gsap.timeline({ defaults: { ease: "power3.out" } });
       // No CSS-hidden starting state: identity and navigation survive failed JS.
       lines.forEach((line, index) => {
@@ -41,13 +40,6 @@ export function HeroMotion({ children }: { children: React.ReactNode }) {
         yPercent: 0, scale: 1, opacity: 1, duration: .45,
         ease: "back.out(2)", clearProps: "transform,opacity",
       }, desktop ? .72 : .5);
-      planes.forEach((plane, index) => {
-        timeline.fromTo(plane, {
-          x: desktop ? [-24, 18, 10][index] : 0,
-          y: desktop ? [18, -14, 24][index] : 10,
-          scale: desktop ? [.97, .94, .98][index] : 1,
-        }, { x: 0, y: 0, scale: 1, duration: desktop ? .58 : .4, clearProps: "transform" }, .1 + index * .07);
-      });
     });
     return () => mm.revert();
   }, { scope: root });

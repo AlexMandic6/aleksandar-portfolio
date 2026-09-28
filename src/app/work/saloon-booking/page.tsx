@@ -16,7 +16,7 @@ export default function ProjectPage() {
       <h1 className="case-title display">saloon-booking<span className="accent">.</span></h1>
       <p className="case-lede">Exploring a clearer path from selecting a service to choosing an appointment time.</p>
     </header>
-    <div className="case-visual"><BookingConcept variant="project" /></div>
+    <div className="case-visual"><BookingConcept placement="case-study" /></div>
     <article className="case-content"><CaseStudy /></article>
     <Link href="/#work" className="text-link case-end">← Return to selected work</Link>
   </main>;
