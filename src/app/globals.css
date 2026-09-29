@@ -80,16 +80,25 @@ body { margin: 0; background: #10100f; color: #f2eee6; font-family: "Manrope", "
 .case-intro { padding-block: clamp(5rem, 8vw, 9rem) clamp(3rem, 5vw, 5rem); }
 .case-title { font-size: clamp(3rem, 9vw, 9rem); line-height: .9; margin: 1.5rem 0 2rem; overflow-wrap: anywhere; }
 .case-lede { max-width: 42rem; font-size: clamp(1.15rem, 2vw, 1.55rem); line-height: 1.55; color: #b4b0a7; }
+.case-facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; margin-top: 3rem; padding-block: 1.5rem; border-block: 1px solid #3b3b34; }
+.case-facts dt { color: #ff6b35; font-size: .7rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.case-facts dd { margin-top: .65rem; color: #e6e3db; line-height: 1.5; }
 .case-visual { min-height: 610px; display: grid; place-items: center; padding: clamp(1.5rem, 5vw, 5rem); background: radial-gradient(circle at 50% 44%, #292920, #1a1a17 62%); border: 1px solid #3b3b34; }
 .case-content { width: min(100%, 760px); margin: 5rem auto 0; }
 .case-heading { font-size: clamp(2rem, 3.7vw, 3.3rem); line-height: 1.1; margin: 4rem 0 1rem; padding-top: 1.5rem; border-top: 1px solid #3b3b34; }
 .case-paragraph { max-width: 70ch; color: #b4b0a7; font-size: 1.05rem; line-height: 1.8; }
+.case-paragraph + .case-paragraph { margin-top: 1rem; }
+.case-flow { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-top: 2rem; list-style: none; counter-reset: case-step; }
+.case-flow li { min-width: 0; min-height: 11rem; padding: 1.4rem; border: 1px solid #3b3b34; background: #20201b; counter-increment: case-step; }
+.case-flow li::before { content: "0" counter(case-step); display: block; margin-bottom: 1.2rem; color: #ff6b35; font: 700 .7rem ui-monospace, monospace; letter-spacing: .12em; }
+.case-flow strong { display: block; color: #f0ede6; font-size: 1.2rem; }
+.case-flow span { display: block; margin-top: .5rem; color: #b4b0a7; line-height: 1.55; }
 .case-end { margin-top: 5rem; }
 .not-found { min-height: 65vh; padding-block: 9rem; }
 .not-found h1 { font-size: clamp(3rem, 7vw, 7rem); line-height: 1; margin: 2rem 0; }
 .not-found p:not(.eyebrow) { color: #b4b0a7; margin-bottom: 2rem; }
 .error-actions { display: flex; flex-wrap: wrap; gap: 2rem; }
-@media (max-width: 767px) { .case-visual { min-height: 340px; padding: 1rem; } .case-content { margin-top: 2rem; } }
+@media (max-width: 767px) { .case-facts { grid-template-columns: 1fr; gap: 1.1rem; } .case-visual { min-height: 340px; padding: 1rem; } .case-content { margin-top: 2rem; } .case-flow { grid-template-columns: 1fr; } .case-flow li { min-height: 0; } }
 
 /* CSS owns link feedback; GSAP only owns name lines and booking-plane wrappers. */
 .text-link .arrow { transition: transform .2s cubic-bezier(.2,.7,.2,1); }

@@ -5,16 +5,37 @@ test("identity, project and return navigation", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { level: 1 })).toHaveAccessibleName("Aleksandar Mandić");
   await page.getByRole("link", { name: "View project", exact: true }).click();
-  await expect(page).toHaveURL(/\/work\/saloon-booking$/);
-  await expect(page.getByRole("heading", { level: 1 })).toContainText("saloon-booking");
+  await expect(page).toHaveURL(/\/work\/salon-booking$/);
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("Salon Booking");
   await page.getByRole("navigation").getByRole("link", { name: "Work", exact: true }).click();
   await expect(page).toHaveURL(/\/#work$/);
+});
+
+test("Salon Booking case study explains the working flow and current limits", async ({ page }) => {
+  await page.goto("/work/salon-booking");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Salon Booking.");
+  const caseStudy = page.getByRole("article");
+  await expect(caseStudy.getByRole("heading", { name: "Why I built it" })).toBeVisible();
+  await expect(caseStudy.getByRole("heading", { name: "Reliable booking" })).toBeVisible();
+  await expect(caseStudy.getByRole("heading", { name: "Different salons, one codebase" })).toBeVisible();
+  await expect(caseStudy.getByRole("list", { name: "How an appointment is reserved" }).getByRole("listitem")).toHaveCount(4);
+  await expect(caseStudy).toContainText("weekly working hours editor");
+  await expect(caseStudy).toContainText("has not been used for live business bookings");
+  await expect(page.getByText("UI concept — synthetic data", { exact: false })).toBeVisible();
+});
+
+test("the old project URL permanently redirects to Salon Booking", async ({ page }) => {
+  const response = await page.request.get("/work/saloon-booking", { maxRedirects: 0 });
+  expect(response.status()).toBe(308);
+  expect(response.headers().location).toBe("/work/salon-booking");
+  await page.goto("/work/saloon-booking");
+  await expect(page).toHaveURL(/\/work\/salon-booking$/);
 });
 
 test("narrow layouts do not overflow on either route", async ({ page }) => {
   for (const width of [360, 390, 768, 1440]) {
     await page.setViewportSize({ width, height: 900 });
-    for (const route of ["/", "/work/saloon-booking"]) {
+    for (const route of ["/", "/work/salon-booking"]) {
       await page.goto(route);
       await page.evaluate(() => document.fonts.ready);
       const overflows = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
@@ -57,7 +78,7 @@ test("supplied contact methods and CV resolve to real destinations", async ({ pa
 
 test("project navigation resolves every home section anchor", async ({ page }) => {
   for (const anchor of ["Work", "About", "Contact"]) {
-    await page.goto("/work/saloon-booking");
+    await page.goto("/work/salon-booking");
     await page.getByRole("navigation").getByRole("link", { name: anchor, exact: true }).click();
     await expect(page).toHaveURL(new RegExp(`/#${anchor.toLowerCase()}$`));
     await expect(page.locator(`#${anchor.toLowerCase()}`)).toBeVisible();
@@ -66,7 +87,7 @@ test("project navigation resolves every home section anchor", async ({ page }) =
 
 test("basic accessibility on both routes", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
-  for (const route of ["/", "/work/saloon-booking"]) {
+  for (const route of ["/", "/work/salon-booking"]) {
     await page.goto(route);
     const result = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa"]).analyze();
     expect(result.violations).toEqual([]);
@@ -81,7 +102,7 @@ test("core content and links survive without JavaScript", async ({ browser }) =>
   await expect(page.locator(".hero-art .booking-scene")).toBeVisible();
   await expect(page.locator("#work .booking-scene")).toBeVisible();
   await page.getByRole("link", { name: "View project", exact: true }).click();
-  await expect(page.getByRole("heading", { level: 1 })).toContainText("saloon-booking");
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("Salon Booking");
   await expect(page.locator(".case-visual .booking-scene")).toBeVisible();
   await context.close();
 });

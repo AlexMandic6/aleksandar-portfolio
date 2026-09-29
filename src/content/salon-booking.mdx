@@ -1,0 +1,28 @@
+## Why I built it
+
+Salon Booking began as my own idea for an appointment experience that could suit hair, nail, cosmetic and other salons. In informal conversations, salon owners described wanting to publish their working hours and let customers book without coordinating times through Instagram messages and manually posted availability.
+
+## Reliable booking
+
+I built a customer journey from choosing a service to selecting an available time, entering appointment details and viewing the result. Available starts are calculated from employee working hours, breaks, service duration and existing appointments; they are not stored as reservations.
+
+The time a customer sees may be taken before they submit. The booking action validates the request, then Postgres checks availability again inside the appointment transaction. A database constraint prevents overlapping reservations for the same employee. If the selected time has gone, the customer returns to updated availability.
+
+<ol className="case-flow" aria-label="How an appointment is reserved">
+  <li><strong>Calculate</strong><span>Working hours, breaks and existing appointments produce available start times.</span></li>
+  <li><strong>Choose</strong><span>A customer selects a service and a calculated time.</span></li>
+  <li><strong>Recheck</strong><span>The server validates the request; Postgres checks that the time is still available.</span></li>
+  <li><strong>Reserve</strong><span>The transaction creates the appointment or sends the customer back to fresh times.</span></li>
+</ol>
+
+## Different salons, one codebase
+
+Each installation serves one salon at one location, keeping its booking data separate. An administrator can choose from curated themes and add a salon hero photo, booking background and service photos. The booking journey stays consistent while the presentation can fit a nail, cosmetic or hair salon.
+
+## My role
+
+I designed and built the project independently from scratch, including the customer interface, server actions, Postgres booking model and administration screens.
+
+## Current state
+
+The customer booking journey and visual configuration are implemented in a private project. Salon owners have looked at the app, but it has not been used for live business bookings. The weekly working hours editor is still unfinished, so schedules are currently configured in the database. There is no public demo. The illustration above is a concept, not a screenshot of the app.

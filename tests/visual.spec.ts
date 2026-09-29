@@ -16,7 +16,7 @@ test("capture desktop and mobile renders with asset diagnostics", async ({ page 
     await page.setViewportSize({ width, height });
     for (const { route, name } of [
       { route: "/", name: "home" },
-      { route: "/work/saloon-booking", name: "project" },
+      { route: "/work/salon-booking", name: "project" },
     ]) {
       await page.goto(route);
       await page.evaluate(() => document.fonts.ready);

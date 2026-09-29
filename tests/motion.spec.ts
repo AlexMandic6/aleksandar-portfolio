@@ -4,7 +4,7 @@ import { mkdirSync } from "node:fs";
 test("project copy and action remain usable while the illustration enters view", async ({ page }) => {
   await page.goto("/");
   const work = page.locator("#work");
-  const project = work.getByRole("heading", { name: "saloon-booking" });
+  const project = work.getByRole("heading", { name: "Salon Booking" });
   const action = work.getByRole("link", { name: "View project" });
   await work.getByText(/UI concept.*synthetic data/).scrollIntoViewIfNeeded();
   await expect(project).toBeVisible();
@@ -17,7 +17,7 @@ test("project copy and action remain usable while the illustration enters view",
   expect(Math.abs(after!.x - before!.x)).toBeLessThan(1);
   expect(Math.abs(after!.y - before!.y)).toBeLessThan(1);
   await action.click();
-  await expect(page).toHaveURL(/\/work\/saloon-booking$/);
+  await expect(page).toHaveURL(/\/work\/salon-booking$/);
 });
 
 for (const width of [390, 1440]) {
@@ -44,7 +44,7 @@ for (const width of [390, 1440]) {
     await page.emulateMedia({ reducedMotion: "no-preference" });
     for (let cycle = 0; cycle < 3; cycle++) {
       await action.click();
-      await expect(page).toHaveURL(/\/work\/saloon-booking$/);
+      await expect(page).toHaveURL(/\/work\/salon-booking$/);
       await page.getByRole("link", { name: /, home$/ }).click();
       await expect(page).toHaveURL("/");
       await expect(page.getByRole("heading", { level: 1, name: "Aleksandar Mandić" })).toBeVisible();
