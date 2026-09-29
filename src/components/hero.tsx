@@ -2,9 +2,11 @@ import Link from "next/link";
 import { BookingConcept } from "./booking-concept";
 import { profile } from "@/content/profile";
 import { HeroMotion } from "./motion/hero-motion";
+import { HeroBackground } from "./hero-background";
 
 export function Hero() {
   return <HeroMotion><section className="hero wrap" aria-labelledby="hero-title">
+    <HeroBackground />
     <div className="hero-grid">
       <div className="hero-copy">
         <p className="hero-index eyebrow">Portfolio / 2026</p>

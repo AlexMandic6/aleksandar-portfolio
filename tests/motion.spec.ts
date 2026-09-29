@@ -71,3 +71,31 @@ test("keyboard link feedback matches hover and reduced motion removes movement",
   await page.emulateMedia({ reducedMotion: "reduce" });
   await expect(link.locator(".arrow")).toHaveCSS("transform", "none");
 });
+
+test("hero artwork responds to a fine pointer and settles when motion is reduced", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+  const scene = page.locator(".hero-art .booking-scene");
+  const card = scene.locator(".booking-service .booking-surface");
+  await page.waitForTimeout(950);
+  const area = await scene.boundingBox();
+  const rest = await card.boundingBox();
+  expect(area).not.toBeNull();
+  expect(rest).not.toBeNull();
+
+  await page.mouse.move(area!.x + area!.width * 0.85, area!.y + area!.height * 0.8);
+  await expect.poll(async () => {
+    const moved = await card.boundingBox();
+    return Math.abs(moved!.x - rest!.x) + Math.abs(moved!.y - rest!.y);
+  }).toBeGreaterThan(2);
+
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect.poll(async () => {
+    const settled = await card.boundingBox();
+    return Math.abs(settled!.x - rest!.x) + Math.abs(settled!.y - rest!.y);
+  }).toBeLessThan(1);
+  await page.mouse.move(area!.x + area!.width * 0.15, area!.y + area!.height * 0.2);
+  await page.waitForTimeout(450);
+  const still = await card.boundingBox();
+  expect(Math.abs(still!.x - rest!.x) + Math.abs(still!.y - rest!.y)).toBeLessThan(1);
+});

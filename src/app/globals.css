@@ -10,7 +10,7 @@
 }
 
 :root { color-scheme: dark; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scroll-padding-top: 7rem; }
 body { margin: 0; background: #10100f; color: #f2eee6; font-family: "Manrope", "Segoe UI", Arial, sans-serif; }
 * { box-sizing: border-box; }
 ::selection { background: #ff6b35; color: #10100f; }
@@ -27,11 +27,6 @@ body { margin: 0; background: #10100f; color: #f2eee6; font-family: "Manrope", "
 .arrow { color: #ff6b35; font-size: 1.15rem; line-height: 1; }
 .skip-link { position: absolute; z-index: 100; left: 1rem; top: -5rem; padding: .75rem 1rem; background: #ff6b35; color: #10100f; }
 .skip-link:focus { top: 1rem; }
-.site-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #3b3b34; padding-block: 1.75rem; }
-.site-header nav { display: flex; gap: clamp(1.2rem, 3vw, 2.5rem); font-size: .85rem; font-weight: 650; }
-.site-header nav a { transition: color .2s; }
-.site-header nav a:is(:hover, :focus-visible) { color: #ff6b35; }
-.wordmark { font-size: 1.6rem; line-height: 1; }
 .site-footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; border-top: 1px solid #3b3b34; padding-block: 1.8rem; color: #b4b0a7; font-size: .75rem; }
 .hero { position: relative; padding-top: clamp(4.5rem, 9vw, 9rem); padding-bottom: 7rem; min-height: min(820px, 92vh); }
 .hero-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); position: relative; }
