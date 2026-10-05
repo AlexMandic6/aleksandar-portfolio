@@ -8,7 +8,7 @@ export type Profile = {
 export const profile: Profile = {
   name: "Aleksandar Mandić",
   role: "Frontend Engineer",
-  summary: "React, TypeScript, enterprise and e-commerce interfaces.",
+  summary: "I build React and TypeScript interfaces for enterprise and e-commerce products.",
   links: {
     email: "aleksandar.mndc@gmail.com",
     phone: "+381653781461",

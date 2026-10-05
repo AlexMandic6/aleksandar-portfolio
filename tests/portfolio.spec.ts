@@ -63,7 +63,7 @@ test("reduced motion and repeat navigation stay usable", async ({ page }) => {
 test("supplied contact methods and CV resolve to real destinations", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator('a[href="#"]')).toHaveCount(0);
-  await expect(page.locator("a[download]")).toHaveCount(0);
+  await expect(page.locator(".hero").getByRole("link", { name: "Download CV" })).toHaveAttribute("href", "/Aleksandar_Mandic_CV.pdf");
   const contact = page.locator("#contact");
   await expect(contact.getByRole("link", { name: /Email/i })).toHaveAttribute("href", "mailto:aleksandar.mndc@gmail.com");
   await expect(contact.getByRole("link", { name: /Phone/i })).toHaveAttribute("href", "tel:+381653781461");
@@ -99,7 +99,7 @@ test("core content and links survive without JavaScript", async ({ browser }) =>
   const page = await context.newPage();
   await page.goto("http://localhost:3000/");
   await expect(page.getByRole("heading", { level: 1 })).toHaveAccessibleName("Aleksandar Mandić");
-  await expect(page.locator(".hero-art .booking-scene")).toBeVisible();
+  await expect(page.locator(".hero").getByRole("link", { name: "Download CV" })).toBeVisible();
   await expect(page.locator("#work .booking-scene")).toBeVisible();
   await page.getByRole("link", { name: "View project", exact: true }).click();
   await expect(page.getByRole("heading", { level: 1 })).toContainText("Salon Booking");

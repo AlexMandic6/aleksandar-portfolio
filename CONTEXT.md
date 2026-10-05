@@ -12,6 +12,10 @@ _Avoid_: Saloon Booking, saloon-booking
 A synthetic, noninteractive portfolio visual inspired by Salon Booking. It illustrates a possible flow and does not represent a product screenshot or a working demo.
 _Avoid_: Booking app, booking demo
 
+**Tech stack showcase**:
+A portfolio composition presenting Aleksandar's React, TypeScript, Next.js, Supabase, Salesforce Commerce Cloud and Lightning Web Components experience. It identifies technologies he works with rather than rating proficiency. Next.js and Supabase are also demonstrated by the Salon Booking personal project.
+_Avoid_: Skill scores, proficiency ratings
+
 **Working hours**:
 Recurring weekly intervals when a salon employee can be offered appointments. They are distinct from appointments customers have already booked.
 _Avoid_: Booked times, appointment calendar

@@ -134,7 +134,7 @@ export function createLiquidBackground(canvas: HTMLCanvasElement, hero: HTMLElem
     wake();
   };
   const move = (event: PointerEvent) => {
-    if (event.pointerType === "touch" || !visible || lost || document.hidden) return;
+    if (!visible || lost || document.hidden) return;
     const now = seconds();
     if (now - lastInput < 0.045) return;
     const bounds = canvas.getBoundingClientRect();

@@ -6,7 +6,7 @@ test("record hero and work reveal frames for visual review", async ({ page }) =>
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.goto("/", { waitUntil: "domcontentloaded" });
   await expect(page.getByRole("heading", { level: 1, name: "Aleksandar Mandić" })).toBeVisible();
-  await page.screenshot({ path: "test-results/animation/hero-entry.png" });
+  await page.screenshot({ path: "test-results/animation/hero-entry.png", caret: "initial" });
   await page.waitForTimeout(1000);
   await page.screenshot({ path: "test-results/animation/hero-settled.png" });
   await page.locator("#work").scrollIntoViewIfNeeded();

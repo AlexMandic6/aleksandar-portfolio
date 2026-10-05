@@ -14,7 +14,9 @@ export function HeroBackground() {
     const hero = field?.closest<HTMLElement>(".hero");
     if (!field || !surface || !hero) return;
 
-    const media = window.matchMedia("(min-width: 768px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)");
+    // Primary pointer capabilities can report touch even when a mouse is in use.
+    // The renderer responds to actual pointer input instead of excluding those devices.
+    const media = window.matchMedia("(min-width: 768px) and (prefers-reduced-motion: no-preference)");
     let dispose: (() => void) | undefined;
     const sync = () => {
       dispose?.();
