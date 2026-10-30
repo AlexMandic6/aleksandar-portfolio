@@ -4,11 +4,11 @@ A local, typography-led portfolio prototype for a frontend and full-stack engine
 
 ## Run locally
 
-Requirements: Node.js 20.9+ (verified here with Node 24.21.0) and npm.
+Requirements: Node.js 20.9+ (verified here with Node 24.21.0) and pnpm. The pnpm version is pinned in `package.json`.
 
 ```sh
-npm install
-npm run dev
+pnpm install
+pnpm run dev
 ```
 
 Open **http://localhost:3000**. The case study is at **http://localhost:3000/work/salon-booking**. The former `/work/saloon-booking` URL permanently redirects there.
@@ -23,22 +23,23 @@ Open **http://localhost:3000**. The case study is at **http://localhost:3000/wor
 - Responsive layouts, keyboard skip link, metadata, custom favicon, error and 404 pages.
 - Space Grotesk and Manrope are served as licensed local font package assets via `@fontsource`.
 
-Stack: Next.js 16.3.6 App Router, React 19.2.8, strict TypeScript, Tailwind CSS 4, GSAP 3.15.0, `@gsap/react` 2.1.2, `@next/mdx` 16.3.6, Playwright 1.63.0 and axe.
+Stack: Next.js 16.4.3 App Router, React 19.2.8, strict TypeScript, Tailwind CSS 4, GSAP 3.15.0, `@gsap/react` 2.1.2, `@next/mdx` 16.4.3, Playwright 1.63.0 and axe.
 
 ## Verification
 
 ```sh
-npm run lint
-npm run typecheck
-npm run test:e2e
-npm run build
+pnpm run format:check
+pnpm run lint
+pnpm run typecheck
+pnpm run test:e2e
+pnpm run build
 ```
 
 On 2026-09-28: lint, TypeScript (also after build) and production build passed; **18/18 Playwright tests passed**. Browser tests cover both routes, 404 recovery, all home anchors from the project page, 360/390/768/1440px overflow, axe WCAG 2 A/AA and 2.1 AA tags, reduced motion, repeated navigation, no-JavaScript navigation, contact destinations and the served PDF, keyboard skip link and GSAP entry/final states. Browser screenshots are captured for both routes at desktop, 390px and 360px under `test-results/visual/` (ignored by Git) and were inspected, including the updated contact section. No browser exceptions or failed asset responses were found in the capture test. A 720px CSS viewport was used as a desktop 200% zoom reflow proxy; browser-native zoom was not separately measured.
 
 The Salon Booking revision added a source-backed case study, an accessible booking diagram, corrected naming and a permanent redirect from the old URL. The private product source was inspected through GitHub; its runtime was not tested here because its local credentials are unavailable. The portfolio's lint, typecheck, build and **20/20 Playwright tests passed**. Fresh desktop and mobile case-study captures are in `test-results/visual/` and were inspected.
 
-The Playwright trace is at `test-results/visual/performance-trace.zip` after a full run. A local diagnostic observed one long task and a layout shift sum of about 0.0174 during the traced dev-server session. These are development diagnostics, not field Core Web Vitals or proof of production performance. The Playwright web server stops after the tests; run `npm run dev` for a persistent preview.
+The Playwright trace is at `test-results/visual/performance-trace.zip` after a full run. A local diagnostic observed one long task and a layout shift sum of about 0.0174 during the traced dev-server session. These are development diagnostics, not field Core Web Vitals or proof of production performance. The Playwright web server stops after the tests; run `pnpm run dev` for a persistent preview.
 
 The current browser tests check that the heading, project copy and links remain usable through motion, route changes and resizing. The reduced-motion check compares visible hero renders over time. Animation frames and the performance trace are review artifacts; the trace test also checks that local layout shift stays below 0.1. The 720px screenshot is named `home-viewport-720.png` because viewport narrowing does not exercise browser-native zoom.
 

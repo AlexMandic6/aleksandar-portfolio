@@ -9,9 +9,18 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: { default: "Aleksandar Mandić — Frontend Engineer", template: "%s | Aleksandar Mandić" },
-  description: "React, TypeScript, enterprise and e-commerce interfaces. Selected work and background of Aleksandar Mandić.",
+  description:
+    "React, TypeScript, enterprise and e-commerce interfaces. Selected work and background of Aleksandar Mandić.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en" data-scroll-behavior="smooth"><body><SiteHeader />{children}<SiteFooter /></body></html>;
+  return (
+    <html lang="en" data-scroll-behavior="smooth">
+      <body>
+        <SiteHeader />
+        {children}
+        <SiteFooter />
+      </body>
+    </html>
+  );
 }

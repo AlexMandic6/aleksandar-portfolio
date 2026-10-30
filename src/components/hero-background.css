@@ -20,10 +20,18 @@
   background: radial-gradient(ellipse at 60% 45%, #141519, #10100f 70%);
 }
 
-.hero-background-liquid { visibility: hidden; }
-.hero-background:has(.hero-background-liquid[data-ready]) .hero-background-fallback { visibility: hidden; }
-.hero-background-liquid[data-ready] { visibility: visible; }
+.hero-background-liquid {
+  visibility: hidden;
+}
+.hero-background:has(.hero-background-liquid[data-ready]) .hero-background-fallback {
+  visibility: hidden;
+}
+.hero-background-liquid[data-ready] {
+  visibility: visible;
+}
 
 @media (max-width: 767px) {
-  .hero-background { opacity: .45; }
+  .hero-background {
+    opacity: 0.45;
+  }
 }

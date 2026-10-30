@@ -6,7 +6,9 @@ const nextConfig: NextConfig = {
   pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdx"],
   devIndicators: false,
   async redirects() {
-    return [{ source: "/work/saloon-booking", destination: "/work/salon-booking", permanent: true }];
+    return [
+      { source: "/work/saloon-booking", destination: "/work/salon-booking", permanent: true },
+    ];
   },
 };
 

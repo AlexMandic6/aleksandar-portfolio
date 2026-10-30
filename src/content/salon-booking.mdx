@@ -9,10 +9,22 @@ I built a customer journey from choosing a service to selecting an available tim
 The time a customer sees may be taken before they submit. The booking action validates the request, then Postgres checks availability again inside the appointment transaction. A database constraint prevents overlapping reservations for the same employee. If the selected time has gone, the customer returns to updated availability.
 
 <ol className="case-flow" aria-label="How an appointment is reserved">
-  <li><strong>Calculate</strong><span>Working hours, breaks and existing appointments produce available start times.</span></li>
-  <li><strong>Choose</strong><span>A customer selects a service and a calculated time.</span></li>
-  <li><strong>Recheck</strong><span>The server validates the request; Postgres checks that the time is still available.</span></li>
-  <li><strong>Reserve</strong><span>The transaction creates the appointment or sends the customer back to fresh times.</span></li>
+  <li>
+    <strong>Calculate</strong>
+    <span>Working hours, breaks and existing appointments produce available start times.</span>
+  </li>
+  <li>
+    <strong>Choose</strong>
+    <span>A customer selects a service and a calculated time.</span>
+  </li>
+  <li>
+    <strong>Recheck</strong>
+    <span>The server validates the request; Postgres checks that the time is still available.</span>
+  </li>
+  <li>
+    <strong>Reserve</strong>
+    <span>The transaction creates the appointment or sends the customer back to fresh times.</span>
+  </li>
 </ol>
 
 ## Different salons, one codebase

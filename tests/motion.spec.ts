@@ -1,7 +1,9 @@
 import { test, expect } from "@playwright/test";
 import { mkdirSync } from "node:fs";
 
-test("project copy and action remain usable while the illustration enters view", async ({ page }) => {
+test("project copy and action remain usable while the illustration enters view", async ({
+  page,
+}) => {
   await page.goto("/");
   const work = page.locator("#work");
   const project = work.getByRole("heading", { name: "Salon Booking" });
@@ -21,10 +23,14 @@ test("project copy and action remain usable while the illustration enters view",
 });
 
 for (const width of [390, 1440]) {
-  test(`content remains usable across motion preference, navigation and resize at ${width}px`, async ({ page }) => {
+  test(`content remains usable across motion preference, navigation and resize at ${width}px`, async ({
+    page,
+  }) => {
     const errors: string[] = [];
-    page.on("pageerror", error => errors.push(error.message));
-    page.on("console", message => { if (message.type() === "error") errors.push(message.text()); });
+    page.on("pageerror", (error) => errors.push(error.message));
+    page.on("console", (message) => {
+      if (message.type() === "error") errors.push(message.text());
+    });
     await page.setViewportSize({ width, height: 900 });
     mkdirSync("test-results/animation", { recursive: true });
     await page.goto("/");
@@ -32,13 +38,25 @@ for (const width of [390, 1440]) {
     const action = page.getByRole("link", { name: "View project", exact: true });
     await expect(name).toBeVisible();
     // Preserve native input styles while capturing frames before hydration finishes.
-    await page.screenshot({ path: `test-results/animation/hero-${width}-early.png`, caret: "initial" });
+    await page.screenshot({
+      path: `test-results/animation/hero-${width}-early.png`,
+      caret: "initial",
+    });
     await page.waitForTimeout(160);
-    await page.screenshot({ path: `test-results/animation/hero-${width}-middle.png`, caret: "initial" });
+    await page.screenshot({
+      path: `test-results/animation/hero-${width}-middle.png`,
+      caret: "initial",
+    });
     await page.locator("#work").scrollIntoViewIfNeeded();
-    await page.screenshot({ path: `test-results/animation/work-${width}-early.png`, caret: "initial" });
+    await page.screenshot({
+      path: `test-results/animation/work-${width}-early.png`,
+      caret: "initial",
+    });
     await page.waitForTimeout(180);
-    await page.screenshot({ path: `test-results/animation/work-${width}-middle.png`, caret: "initial" });
+    await page.screenshot({
+      path: `test-results/animation/work-${width}-middle.png`,
+      caret: "initial",
+    });
     await page.emulateMedia({ reducedMotion: "reduce" });
     await expect(name).toBeVisible();
     await expect(action).toBeVisible();
@@ -48,22 +66,31 @@ for (const width of [390, 1440]) {
       await expect(page).toHaveURL(/\/work\/salon-booking$/);
       await page.getByRole("link", { name: /, home$/ }).click();
       await expect(page).toHaveURL("/");
-      await expect(page.getByRole("heading", { level: 1, name: "Aleksandar Mandić" })).toBeVisible();
+      await expect(
+        page.getByRole("heading", { level: 1, name: "Aleksandar Mandić" }),
+      ).toBeVisible();
     }
     await page.emulateMedia({ reducedMotion: "reduce" });
     for (const resizedWidth of [1440, 390, 1440]) {
       await page.setViewportSize({ width: resizedWidth, height: 900 });
       await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-      await expect.poll(
-        () => page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1),
-        { message: `no horizontal overflow at ${resizedWidth}px after resize` },
-      ).toBe(false);
+      await expect
+        .poll(
+          () =>
+            page.evaluate(
+              () => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
+            ),
+          { message: `no horizontal overflow at ${resizedWidth}px after resize` },
+        )
+        .toBe(false);
     }
     expect(errors).toEqual([]);
   });
 }
 
-test("keyboard link feedback matches hover and reduced motion removes movement", async ({ page }) => {
+test("keyboard link feedback matches hover and reduced motion removes movement", async ({
+  page,
+}) => {
   await page.goto("/");
   const link = page.getByRole("link", { name: "View project", exact: true });
   await link.focus();

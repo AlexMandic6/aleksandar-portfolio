@@ -1,13 +1,23 @@
 import { test, expect } from "@playwright/test";
 
 for (const hasTouch of [false, true]) {
-  test(`hero water responds to mouse movement with touch capability ${hasTouch}`, async ({ browser, baseURL }) => {
-    const context = await browser.newContext({ baseURL, viewport: { width: 948, height: 1600 }, hasTouch, reducedMotion: "no-preference" });
+  test(`hero water responds to mouse movement with touch capability ${hasTouch}`, async ({
+    browser,
+    baseURL,
+  }) => {
+    const context = await browser.newContext({
+      baseURL,
+      viewport: { width: 948, height: 1600 },
+      hasTouch,
+      reducedMotion: "no-preference",
+    });
     try {
       const page = await context.newPage();
       await page.goto("/");
       if (hasTouch) {
-        expect(await page.evaluate(() => matchMedia("(hover: hover) and (pointer: fine)").matches)).toBe(false);
+        expect(
+          await page.evaluate(() => matchMedia("(hover: hover) and (pointer: fine)").matches),
+        ).toBe(false);
       }
       const canvas = page.locator(".hero-background-liquid");
       await expect(canvas).toHaveAttribute("data-ready", "");
@@ -18,7 +28,10 @@ for (const hasTouch of [false, true]) {
       expect(bounds).not.toBeNull();
       const still = await background.screenshot();
       for (let step = 0; step < 8; step++) {
-        await page.mouse.move(bounds!.x + bounds!.width * .45 + step * 18, bounds!.y + bounds!.height * .45 + step * 6);
+        await page.mouse.move(
+          bounds!.x + bounds!.width * 0.45 + step * 18,
+          bounds!.y + bounds!.height * 0.45 + step * 6,
+        );
         // Feed multiple distinct waves past the renderer's 45ms input throttle.
         await page.waitForTimeout(60);
       }

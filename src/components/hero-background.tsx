@@ -16,7 +16,9 @@ export function HeroBackground() {
 
     // Primary pointer capabilities can report touch even when a mouse is in use.
     // The renderer responds to actual pointer input instead of excluding those devices.
-    const media = window.matchMedia("(min-width: 768px) and (prefers-reduced-motion: no-preference)");
+    const media = window.matchMedia(
+      "(min-width: 768px) and (prefers-reduced-motion: no-preference)",
+    );
     let dispose: (() => void) | undefined;
     const sync = () => {
       dispose?.();
@@ -31,8 +33,10 @@ export function HeroBackground() {
     };
   }, []);
 
-  return <div ref={root} className="hero-background" aria-hidden="true">
-    <div className="hero-background-fallback" />
-    <canvas ref={canvas} className="hero-background-liquid" />
-  </div>;
+  return (
+    <div ref={root} className="hero-background" aria-hidden="true">
+      <div className="hero-background-fallback" />
+      <canvas ref={canvas} className="hero-background-liquid" />
+    </div>
+  );
 }

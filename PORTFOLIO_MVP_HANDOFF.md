@@ -151,9 +151,9 @@ export type Profile = {
 };
 
 export const profile: Profile = {
-  name: 'Aleksandar Mandić',
-  role: 'Frontend Engineer',
-  summary: 'React, TypeScript, enterprise and e-commerce interfaces.',
+  name: "Aleksandar Mandić",
+  role: "Frontend Engineer",
+  summary: "React, TypeScript, enterprise and e-commerce interfaces.",
   links: {},
 };
 ```
@@ -202,29 +202,29 @@ Performance goals: no mandatory video/WebGL; defer GSAP to interactive boundarie
 
 ## File responsibility map
 
-| File | Responsibility |
-| --- | --- |
-| `src/app/layout.tsx` | Fonts, global metadata, shared header/footer |
-| `src/app/globals.css` | Tailwind import, tokens, minimal global accessibility/effect CSS |
-| `src/app/page.tsx` | Home page server composition |
-| `src/app/work/saloon-booking/page.tsx` | Server-rendered case-study wrapper and route metadata |
-| `src/app/not-found.tsx` | Clear recovery link |
-| `src/components/site-header.tsx` | Navigation and skip link |
-| `src/components/site-footer.tsx` | Short attribution, no fictional social links |
-| `src/components/hero.tsx` | Hero content and composition |
-| `src/components/booking-concept.tsx` | Decorative synthetic product UI |
-| `src/components/featured-work.tsx` | Single project presentation |
-| `src/components/about.tsx` | Factual professional context |
-| `src/components/contact.tsx` | Optional configured contact links |
-| `src/components/motion/hero-motion.tsx` | Isolated hero animation lifecycle |
-| `src/components/motion/project-reveal.tsx` | Isolated ScrollTrigger enhancement |
-| `src/content/profile.ts` | Profile type and verified copy |
-| `src/content/saloon-booking.mdx` | Case-study prose with honest status |
-| `src/mdx-components.tsx` | Accessible MDX element styling |
-| `next.config.ts` or generated equivalent | MDX integration |
-| `playwright.config.ts` | Reproducible local browser checks |
-| `tests/portfolio.spec.ts` | Meaningful route/accessibility/responsive checks |
-| `README.md` | Setup, results, owner assets and next step |
+| File                                       | Responsibility                                                   |
+| ------------------------------------------ | ---------------------------------------------------------------- |
+| `src/app/layout.tsx`                       | Fonts, global metadata, shared header/footer                     |
+| `src/app/globals.css`                      | Tailwind import, tokens, minimal global accessibility/effect CSS |
+| `src/app/page.tsx`                         | Home page server composition                                     |
+| `src/app/work/saloon-booking/page.tsx`     | Server-rendered case-study wrapper and route metadata            |
+| `src/app/not-found.tsx`                    | Clear recovery link                                              |
+| `src/components/site-header.tsx`           | Navigation and skip link                                         |
+| `src/components/site-footer.tsx`           | Short attribution, no fictional social links                     |
+| `src/components/hero.tsx`                  | Hero content and composition                                     |
+| `src/components/booking-concept.tsx`       | Decorative synthetic product UI                                  |
+| `src/components/featured-work.tsx`         | Single project presentation                                      |
+| `src/components/about.tsx`                 | Factual professional context                                     |
+| `src/components/contact.tsx`               | Optional configured contact links                                |
+| `src/components/motion/hero-motion.tsx`    | Isolated hero animation lifecycle                                |
+| `src/components/motion/project-reveal.tsx` | Isolated ScrollTrigger enhancement                               |
+| `src/content/profile.ts`                   | Profile type and verified copy                                   |
+| `src/content/saloon-booking.mdx`           | Case-study prose with honest status                              |
+| `src/mdx-components.tsx`                   | Accessible MDX element styling                                   |
+| `next.config.ts` or generated equivalent   | MDX integration                                                  |
+| `playwright.config.ts`                     | Reproducible local browser checks                                |
+| `tests/portfolio.spec.ts`                  | Meaningful route/accessibility/responsive checks                 |
+| `README.md`                                | Setup, results, owner assets and next step                       |
 
 Use the actual generated config extension; do not create two conflicting Next config files. Add no abstraction without a real consumer.
 
@@ -252,9 +252,9 @@ This task delivers a usable static home page. Do not polish animation until hier
 Example config shape (adapt to the existing extension):
 
 ```ts
-import createMDX from '@next/mdx';
-import type { NextConfig } from 'next';
-const config: NextConfig = { pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'] };
+import createMDX from "@next/mdx";
+import type { NextConfig } from "next";
+const config: NextConfig = { pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdx"] };
 export default createMDX()(config);
 ```
 
@@ -287,72 +287,76 @@ Do not add Lenis, Motion, WebGL or route-transition systems. Optional pointer ti
 - [x] Add these core behavior checks to `tests/portfolio.spec.ts`; run them, then fix the specific failures:
 
 ```ts
-import { test, expect } from '@playwright/test';
-import AxeBuilder from '@axe-core/playwright';
+import { test, expect } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
 
-test('identity, project and return navigation', async ({ page }) => {
-  await page.goto('/');
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Aleksandar Mandić');
-  await page.getByRole('link', { name: 'View project', exact: true }).click();
+test("identity, project and return navigation", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Aleksandar Mandić");
+  await page.getByRole("link", { name: "View project", exact: true }).click();
   await expect(page).toHaveURL(/\/work\/saloon-booking$/);
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('saloon-booking');
-  await page.getByRole('navigation').getByRole('link', { name: 'Work', exact: true }).click();
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("saloon-booking");
+  await page.getByRole("navigation").getByRole("link", { name: "Work", exact: true }).click();
   await expect(page).toHaveURL(/\/#work$/);
 });
 
-test('narrow layouts do not overflow on either route', async ({ page }) => {
+test("narrow layouts do not overflow on either route", async ({ page }) => {
   for (const width of [360, 390, 768, 1440]) {
     await page.setViewportSize({ width, height: 900 });
-    for (const route of ['/', '/work/saloon-booking']) {
+    for (const route of ["/", "/work/saloon-booking"]) {
       await page.goto(route);
       await page.evaluate(() => document.fonts.ready);
-      const overflows = await page.evaluate(() =>
-        document.documentElement.scrollWidth > document.documentElement.clientWidth + 1
+      const overflows = await page.evaluate(
+        () => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
       );
       expect(overflows, `${route} at ${width}px`).toBe(false);
     }
   }
 });
 
-test('reduced motion and repeat navigation stay usable', async ({ page }) => {
+test("reduced motion and repeat navigation stay usable", async ({ page }) => {
   const errors: string[] = [];
-  page.on('pageerror', error => errors.push(error.message));
-  await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.goto('/');
+  page.on("pageerror", (error) => errors.push(error.message));
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
   for (let i = 0; i < 3; i++) {
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Aleksandar Mandić');
-    await page.getByRole('link', { name: 'View project', exact: true }).click();
-    await page.getByRole('navigation').getByRole('link', { name: 'Work', exact: true }).click();
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Aleksandar Mandić");
+    await page.getByRole("link", { name: "View project", exact: true }).click();
+    await page.getByRole("navigation").getByRole("link", { name: "Work", exact: true }).click();
   }
-  await page.emulateMedia({ reducedMotion: 'no-preference' });
-  await page.emulateMedia({ reducedMotion: 'reduce' });
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Aleksandar Mandić');
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Aleksandar Mandić");
   expect(errors).toEqual([]);
 });
 
-test('no dead anchors or fabricated downloads when links are unconfigured', async ({ page }) => {
-  await page.goto('/');
+test("no dead anchors or fabricated downloads when links are unconfigured", async ({ page }) => {
+  await page.goto("/");
   await expect(page.locator('a[href="#"]')).toHaveCount(0);
-  await expect(page.locator('a[download]')).toHaveCount(0);
-  await expect(page.getByText('Contact details will be added before launch.', { exact: true })).toBeVisible();
+  await expect(page.locator("a[download]")).toHaveCount(0);
+  await expect(
+    page.getByText("Contact details will be added before launch.", { exact: true }),
+  ).toBeVisible();
 });
 
-test('basic accessibility on both routes', async ({ page }) => {
-  await page.emulateMedia({ reducedMotion: 'reduce' });
-  for (const route of ['/', '/work/saloon-booking']) {
+test("basic accessibility on both routes", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  for (const route of ["/", "/work/saloon-booking"]) {
     await page.goto(route);
-    const result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
+    const result = await new AxeBuilder({ page })
+      .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
+      .analyze();
     expect(result.violations).toEqual([]);
   }
 });
 
-test('core content and links survive without JavaScript', async ({ browser }) => {
+test("core content and links survive without JavaScript", async ({ browser }) => {
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
-  await page.goto('http://localhost:3000/');
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Aleksandar Mandić');
-  await page.getByRole('link', { name: 'View project', exact: true }).click();
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('saloon-booking');
+  await page.goto("http://localhost:3000/");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Aleksandar Mandić");
+  await page.getByRole("link", { name: "View project", exact: true }).click();
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("saloon-booking");
   await context.close();
 });
 ```
@@ -400,7 +404,6 @@ Consult current official documentation if implementation APIs differ. These were
 - GSAP SplitText: https://gsap.com/docs/v3/Plugins/SplitText/
 - Playwright accessibility: https://playwright.dev/docs/accessibility-testing
 - Core Web Vitals: https://web.dev/articles/vitals
-
 
 ## Animation refinement ? 2026-09-28
 

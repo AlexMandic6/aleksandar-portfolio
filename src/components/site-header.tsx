@@ -18,15 +18,23 @@ export function SiteHeader() {
     return () => window.removeEventListener("scroll", updateSurface);
   }, []);
 
-  return <>
-    <a className="skip-link" href="#main">Skip to content</a>
-    <header ref={headerRef} className="wrap site-header">
-      <Link href="/" aria-label="Aleksandar Mandić, home" className="wordmark display">AM<span className="accent">.</span></Link>
-      <nav aria-label="Primary">
-        <Link href="/#work">Work</Link>
-        <Link href="/#about">About</Link>
-        <Link href="/#contact" className="header-contact">Contact</Link>
-      </nav>
-    </header>
-  </>;
+  return (
+    <>
+      <a className="skip-link" href="#main">
+        Skip to content
+      </a>
+      <header ref={headerRef} className="wrap site-header">
+        <Link href="/" aria-label="Aleksandar Mandić, home" className="wordmark display">
+          AM<span className="accent">.</span>
+        </Link>
+        <nav aria-label="Primary">
+          <Link href="/#work">Work</Link>
+          <Link href="/#about">About</Link>
+          <Link href="/#contact" className="header-contact">
+            Contact
+          </Link>
+        </nav>
+      </header>
+    </>
+  );
 }

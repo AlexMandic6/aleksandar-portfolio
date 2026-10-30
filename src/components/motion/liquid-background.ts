@@ -52,8 +52,17 @@ void main() {
 }
 `;
 
-export function createLiquidBackground(canvas: HTMLCanvasElement, hero: HTMLElement): (() => void) | undefined {
-  const gl = canvas.getContext("webgl", { alpha: true, premultipliedAlpha: false, antialias: false, depth: false, powerPreference: "low-power" });
+export function createLiquidBackground(
+  canvas: HTMLCanvasElement,
+  hero: HTMLElement,
+): (() => void) | undefined {
+  const gl = canvas.getContext("webgl", {
+    alpha: true,
+    premultipliedAlpha: false,
+    antialias: false,
+    depth: false,
+    powerPreference: "low-power",
+  });
   if (!gl) return;
 
   const shaders: WebGLShader[] = [];
@@ -63,7 +72,7 @@ export function createLiquidBackground(canvas: HTMLCanvasElement, hero: HTMLElem
     delete canvas.dataset.ready;
     gl.deleteBuffer(buffer);
     gl.deleteProgram(program);
-    shaders.forEach(shader => gl.deleteShader(shader));
+    shaders.forEach((shader) => gl.deleteShader(shader));
   };
   const compile = (type: number, source: string) => {
     const shader = gl.createShader(type);
@@ -75,15 +84,25 @@ export function createLiquidBackground(canvas: HTMLCanvasElement, hero: HTMLElem
   };
   const vertex = compile(gl.VERTEX_SHADER, vertexSource);
   const fragment = compile(gl.FRAGMENT_SHADER, fragmentSource);
-  if (!program || !buffer || !vertex || !fragment) { release(); return; }
+  if (!program || !buffer || !vertex || !fragment) {
+    release();
+    return;
+  }
   gl.attachShader(program, vertex);
   gl.attachShader(program, fragment);
   gl.linkProgram(program);
-  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) { release(); return; }
+  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+    release();
+    return;
+  }
 
   gl.useProgram(program);
   gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]), gl.STATIC_DRAW);
+  gl.bufferData(
+    gl.ARRAY_BUFFER,
+    new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]),
+    gl.STATIC_DRAW,
+  );
   const position = gl.getAttribLocation(program, "aPosition");
   gl.enableVertexAttribArray(position);
   gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0);
@@ -116,7 +135,11 @@ export function createLiquidBackground(canvas: HTMLCanvasElement, hero: HTMLElem
   const wake = () => {
     if (!frame && visible && !document.hidden && !lost) frame = requestAnimationFrame(draw);
   };
-  const stop = () => { cancelAnimationFrame(frame); frame = 0; previous = undefined; };
+  const stop = () => {
+    cancelAnimationFrame(frame);
+    frame = 0;
+    previous = undefined;
+  };
   const resize = () => {
     const bounds = canvas.getBoundingClientRect();
     width = Math.max(1, bounds.width);
@@ -149,8 +172,13 @@ export function createLiquidBackground(canvas: HTMLCanvasElement, hero: HTMLElem
     expires = now + 3.5;
     wake();
   };
-  const leave = () => { previous = undefined; };
-  const visibility = () => { if (document.hidden) stop(); else wake(); };
+  const leave = () => {
+    previous = undefined;
+  };
+  const visibility = () => {
+    if (document.hidden) stop();
+    else wake();
+  };
   const contextLost = (event: Event) => {
     event.preventDefault();
     lost = true;
@@ -162,7 +190,8 @@ export function createLiquidBackground(canvas: HTMLCanvasElement, hero: HTMLElem
   canvas.addEventListener("webglcontextlost", contextLost);
   const observer = new IntersectionObserver(([entry]) => {
     visible = entry.isIntersecting;
-    if (visible) wake(); else stop();
+    if (visible) wake();
+    else stop();
   });
   observer.observe(hero);
   const sizing = new ResizeObserver(resize);

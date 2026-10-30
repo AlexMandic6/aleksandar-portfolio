@@ -5,5 +5,12 @@ import { Contact } from "@/components/contact";
 import { profile } from "@/content/profile";
 
 export default function Home() {
-  return <main id="main"><Hero /><FeaturedWork /><About /><Contact links={profile.links} /></main>;
+  return (
+    <main id="main">
+      <Hero />
+      <FeaturedWork />
+      <About />
+      <Contact links={profile.links} />
+    </main>
+  );
 }
