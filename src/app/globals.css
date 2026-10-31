@@ -245,36 +245,176 @@ body {
   line-height: 1.65;
   max-width: 19rem;
 }
-.work-panel {
-  background: #1a1a17;
-  border: 1px solid #3b3b34;
-  padding: clamp(1.25rem, 4vw, 4rem);
+.work-list-heading {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem 2rem;
+  padding-block: 1.25rem;
+  border-top: 1px solid #3b3b34;
+  color: #b4b0a7;
+  font-size: 0.62rem;
+  line-height: 1.6;
 }
-.work-art {
-  min-height: 540px;
+.work-stories {
+  display: grid;
+  gap: 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.work-entry {
+  display: grid;
+  grid-template-columns: 7.5rem minmax(0, 1fr);
+  gap: clamp(1.5rem, 3vw, 3rem);
+}
+.work-date {
+  position: relative;
+  padding-top: 2rem;
+}
+.work-date::after {
+  content: "";
+  position: absolute;
+  top: 7.5rem;
+  bottom: -1.5rem;
+  left: 0.4rem;
+  width: 1px;
+  background: #3b3b34;
+}
+.work-entry:last-child .work-date::after {
+  bottom: 1rem;
+}
+.work-year {
+  margin: 0;
+  font-size: 2rem;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  font-variant-numeric: tabular-nums;
+}
+.work-period {
+  margin-top: 0.65rem;
+  color: #b4b0a7;
+  font-family: ui-monospace, "SFMono-Regular", monospace;
+  font-size: 0.75rem;
+}
+.work-story {
+  --work-tint: #a7d4e8;
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.5fr);
+  gap: 2rem clamp(2rem, 4vw, 4rem);
+  min-width: 0;
+  padding: clamp(1.5rem, 3vw, 3rem);
+  border: 1px solid #35352e;
+  border-radius: 1.25rem;
+  background: #191917;
+  box-shadow: inset 0 1px 0 #ffffff06;
+}
+.work-story--xsolla {
+  --work-tint: #a2e8f3;
+}
+.work-logo-panel {
   display: grid;
   place-items: center;
-  background: radial-gradient(circle at 50% 44%, #282820 0, #1a1a17 58%);
+  height: 7.5rem;
+  padding: 1.5rem;
+  border: 1px solid #ffffff0d;
+  border-radius: 0.75rem;
+  background: #efefec;
 }
-.work-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: end;
-  gap: 2rem;
-  border-top: 1px solid #3b3b34;
-  margin-top: 2rem;
-  padding-top: 1.8rem;
+.work-story--xsolla .work-logo-panel {
+  background: #112b31;
 }
-.project-name {
-  font-size: clamp(2.1rem, 4vw, 4.4rem);
-  line-height: 1;
-  margin: 0.5rem 0;
+.work-story--villeroy-boch .work-logo-panel {
+  background: #fff;
 }
-.work-summary {
-  max-width: 35rem;
+.work-story--electrolux .work-logo-panel {
+  background: #e7ecf1;
+}
+.work-logo {
+  display: block;
+  width: 100%;
+  max-width: 13rem;
+  height: auto;
+  max-height: 5rem;
+  object-fit: contain;
+}
+.work-story--xsolla .work-logo {
+  max-width: 10.5rem;
+}
+.work-client {
+  margin: 1.25rem 0 0;
+  font-size: clamp(1.4rem, 2vw, 2rem);
+  line-height: 1.15;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
+.work-role {
+  margin-top: 0.55rem;
   color: #b4b0a7;
-  font-size: 0.9rem;
-  line-height: 1.7;
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+.work-story-detail {
+  min-width: 0;
+  max-width: 40rem;
+}
+.work-focus {
+  color: var(--work-tint);
+  font-size: 0.62rem;
+}
+.work-story-title {
+  margin-top: 1rem;
+  font-size: clamp(1.5rem, 2.4vw, 2.35rem);
+  line-height: 1.15;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+}
+.work-summary,
+.work-contribution {
+  margin-top: 1.25rem;
+  color: #cfccc4;
+  font-size: 0.92rem;
+  line-height: 1.8;
+}
+.work-contribution {
+  margin-top: 0.85rem;
+  color: #b4b0a7;
+}
+.work-stack {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: baseline;
+  gap: 1rem 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #35352e;
+}
+.work-stack > .eyebrow {
+  flex-shrink: 0;
+  color: #b4b0a7;
+  font-size: 0.6rem;
+}
+.work-technologies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.work-technologies li {
+  padding: 0.55rem 0.8rem;
+  border: 1px solid #41443f;
+  border-radius: 0.45rem;
+  background: #242723;
+  color: #e5e7de;
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.work-story--xsolla .work-technologies li {
+  border-color: #31484b;
+  background: #1c2b2d;
+  color: #bcebf2;
 }
 .section-split {
   display: grid;
@@ -372,9 +512,6 @@ body {
   .hero-name {
     font-size: clamp(4.5rem, 11vw, 7rem);
   }
-  .work-art {
-    min-height: 450px;
-  }
 }
 @media (max-width: 767px) {
   .hero {
@@ -402,14 +539,61 @@ body {
   .work-intro {
     margin-top: 1.5rem;
   }
-  .work-art {
-    min-height: 300px;
+  .work-entry {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
   }
-  .work-bottom {
-    display: block;
+  .work-stories {
+    gap: 2rem;
   }
-  .work-bottom .text-link {
-    margin-top: 1.5rem;
+  .work-date {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    padding-top: 0.5rem;
+  }
+  .work-date::after {
+    content: none;
+  }
+  .work-year {
+    font-size: 1.25rem;
+  }
+  .work-period {
+    margin: 0;
+  }
+  .work-story {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.75rem;
+  }
+  .work-story-heading {
+    display: grid;
+    grid-template-columns: 5rem minmax(0, 1fr);
+    gap: 0.5rem 1rem;
+    align-items: center;
+  }
+  .work-logo-panel {
+    grid-row: 1 / 3;
+    height: 4.5rem;
+    padding: 0.5rem;
+  }
+  .work-client,
+  .work-role {
+    margin: 0;
+  }
+  .work-client {
+    align-self: end;
+    font-size: 1.3rem;
+  }
+  .work-role {
+    align-self: start;
+    font-size: 0.72rem;
+  }
+  .work-story-title {
+    margin-top: 0.75rem;
+  }
+  .work-stack {
+    flex-direction: column;
+    gap: 0.85rem;
   }
   .section-split {
     display: block;

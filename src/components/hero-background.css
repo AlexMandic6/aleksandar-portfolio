@@ -4,7 +4,6 @@
   overflow: hidden;
   pointer-events: none;
   contain: strict;
-  mask-image: radial-gradient(ellipse at 55% 43%, #000 20%, transparent 74%);
   background: #10100f;
 }
 

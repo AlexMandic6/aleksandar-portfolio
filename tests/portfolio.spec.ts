@@ -1,14 +1,19 @@
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
-test("identity, project and return navigation", async ({ page }) => {
+test("identity and selected client work navigation", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { level: 1 })).toHaveAccessibleName("Aleksandar Mandić");
-  await page.getByRole("link", { name: "View project", exact: true }).click();
-  await expect(page).toHaveURL(/\/work\/salon-booking$/);
-  await expect(page.getByRole("heading", { level: 1 })).toContainText("Salon Booking");
-  await page.getByRole("navigation").getByRole("link", { name: "Work", exact: true }).click();
+  await page.getByRole("link", { name: "View selected work", exact: true }).click();
   await expect(page).toHaveURL(/\/#work$/);
+  const work = page.getByRole("region", { name: "Work with intention." });
+  await expect(work.getByRole("heading", { level: 3 })).toHaveText([
+    "Xsolla",
+    "Villeroy & Boch",
+    "Electrolux Professional",
+  ]);
+  await expect(work).toContainText("client work at EPAM Systems");
+  await expect(work.getByRole("link")).toHaveCount(0);
 });
 
 test("Salon Booking case study explains the working flow and current limits", async ({ page }) => {
@@ -57,7 +62,7 @@ test("reduced motion and repeat navigation stay usable", async ({ page }) => {
   await page.goto("/");
   for (let i = 0; i < 3; i++) {
     await expect(page.getByRole("heading", { level: 1 })).toHaveAccessibleName("Aleksandar Mandić");
-    await page.getByRole("link", { name: "View project", exact: true }).click();
+    await page.goto("/work/salon-booking");
     await page.getByRole("navigation").getByRole("link", { name: "Work", exact: true }).click();
   }
   await page.emulateMedia({ reducedMotion: "no-preference" });
@@ -126,8 +131,13 @@ test("core content and links survive without JavaScript", async ({ browser }) =>
   await page.goto("http://localhost:3000/");
   await expect(page.getByRole("heading", { level: 1 })).toHaveAccessibleName("Aleksandar Mandić");
   await expect(page.locator(".hero").getByRole("link", { name: "Download CV" })).toBeVisible();
-  await expect(page.locator("#work .booking-scene")).toBeVisible();
-  await page.getByRole("link", { name: "View project", exact: true }).click();
+  await page.getByRole("link", { name: "View selected work", exact: true }).click();
+  await expect(page.locator("#work").getByRole("heading", { level: 3 })).toHaveText([
+    "Xsolla",
+    "Villeroy & Boch",
+    "Electrolux Professional",
+  ]);
+  await page.goto("http://localhost:3000/work/salon-booking");
   await expect(page.getByRole("heading", { level: 1 })).toContainText("Salon Booking");
   await expect(page.locator(".case-visual .booking-scene")).toBeVisible();
   await context.close();

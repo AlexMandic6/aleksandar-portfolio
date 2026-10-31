@@ -1,16 +1,13 @@
 import { test, expect } from "@playwright/test";
 import { mkdirSync } from "node:fs";
 
-test("project copy and action remain usable while the illustration enters view", async ({
-  page,
-}) => {
+test("client work remains readable and stable when entering view", async ({ page }) => {
   await page.goto("/");
   const work = page.locator("#work");
-  const project = work.getByRole("heading", { name: "Salon Booking" });
-  const action = work.getByRole("link", { name: "View project" });
-  await work.getByText(/UI concept.*synthetic data/).scrollIntoViewIfNeeded();
+  const project = work.getByRole("heading", { name: "Xsolla", exact: true });
+  await project.scrollIntoViewIfNeeded();
+  await page.evaluate(() => document.fonts.ready);
   await expect(project).toBeVisible();
-  await expect(action).toBeVisible();
   const before = await project.boundingBox();
   await page.waitForTimeout(250);
   const after = await project.boundingBox();
@@ -18,8 +15,7 @@ test("project copy and action remain usable while the illustration enters view",
   expect(after).not.toBeNull();
   expect(Math.abs(after!.x - before!.x)).toBeLessThan(1);
   expect(Math.abs(after!.y - before!.y)).toBeLessThan(1);
-  await action.click();
-  await expect(page).toHaveURL(/\/work\/salon-booking$/);
+  await expect(work.getByRole("article")).toHaveCount(3);
 });
 
 for (const width of [390, 1440]) {
@@ -35,7 +31,7 @@ for (const width of [390, 1440]) {
     mkdirSync("test-results/animation", { recursive: true });
     await page.goto("/");
     const name = page.getByRole("heading", { level: 1, name: "Aleksandar Mandić" });
-    const action = page.getByRole("link", { name: "View project", exact: true });
+    const action = page.getByRole("link", { name: "View selected work", exact: true });
     await expect(name).toBeVisible();
     // Preserve native input styles while capturing frames before hydration finishes.
     await page.screenshot({
@@ -63,7 +59,8 @@ for (const width of [390, 1440]) {
     await page.emulateMedia({ reducedMotion: "no-preference" });
     for (let cycle = 0; cycle < 3; cycle++) {
       await action.click();
-      await expect(page).toHaveURL(/\/work\/salon-booking$/);
+      await expect(page).toHaveURL(/\/#work$/);
+      await page.goto("/work/salon-booking");
       await page.getByRole("link", { name: /, home$/ }).click();
       await expect(page).toHaveURL("/");
       await expect(
@@ -92,7 +89,7 @@ test("keyboard link feedback matches hover and reduced motion removes movement",
   page,
 }) => {
   await page.goto("/");
-  const link = page.getByRole("link", { name: "View project", exact: true });
+  const link = page.getByRole("link", { name: "View selected work", exact: true });
   await link.focus();
   await expect(link).toHaveCSS("color", "rgb(255, 107, 53)");
   await expect(link.locator(".arrow")).not.toHaveCSS("transform", "none");

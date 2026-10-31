@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 import createMDX from "@next/mdx";
 
 const nextConfig: NextConfig = {
-  allowedDevOrigins: ["192.168.1.102"],
+  allowedDevOrigins: ["192.168.1.102", "192.168.1.105"],
   pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdx"],
   devIndicators: false,
   async redirects() {
