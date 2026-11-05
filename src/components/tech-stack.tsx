@@ -18,12 +18,12 @@ const technologies = [
 ];
 
 const connections = [
-  { path: "M231.34 45.179 Q192 108 192 192", color: "#8acfd9" },
-  { path: "M338.821 152.66 Q264 144 192 192", color: "#8db6df" },
-  { path: "M84.52 84.52 Q160 104 192 192", color: "#f2eee6" },
-  { path: "M299.48 299.48 Q216 264 192 192", color: "#91d4b1" },
-  { path: "M45.179 231.34 Q120 248 192 192", color: "#96cce4" },
-  { path: "M152.66 338.821 Q192 276 192 192", color: "#efbf83" },
+  { path: "M231.34 45.179 Q192 108 192 192", color: "var(--palette-tech-react)" },
+  { path: "M338.821 152.66 Q264 144 192 192", color: "var(--palette-tech-typescript)" },
+  { path: "M84.52 84.52 Q160 104 192 192", color: "var(--color-ink)" },
+  { path: "M299.48 299.48 Q216 264 192 192", color: "var(--palette-tech-supabase)" },
+  { path: "M45.179 231.34 Q120 248 192 192", color: "var(--palette-tech-salesforce)" },
+  { path: "M152.66 338.821 Q192 276 192 192", color: "var(--palette-tech-lwc)" },
 ];
 
 function TechSymbol({ technology }: { technology: string }) {
@@ -53,7 +53,7 @@ function TechSymbol({ technology }: { technology: string }) {
           x="50"
           y="67"
           textAnchor="middle"
-          fill="#10100f"
+          fill="var(--color-canvas)"
           fontFamily="Arial, sans-serif"
           fontWeight="700"
           fontSize="42"
@@ -73,7 +73,7 @@ function TechSymbol({ technology }: { technology: string }) {
           x="51"
           y="54"
           textAnchor="middle"
-          fill="#10100f"
+          fill="var(--color-canvas)"
           fontFamily="Arial, sans-serif"
           fontWeight="700"
           fontSize="24"

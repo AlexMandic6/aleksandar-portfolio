@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { colorVariables } from "@/styles/colors";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import "@fontsource/space-grotesk/600.css";
@@ -15,7 +16,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" data-scroll-behavior="smooth">
+    <html lang="en" data-scroll-behavior="smooth" style={colorVariables}>
       <body>
         <SiteHeader />
         {children}

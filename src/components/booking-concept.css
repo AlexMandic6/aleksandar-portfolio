@@ -21,10 +21,10 @@
 .booking-surface {
   width: 100%;
   height: 100%;
-  background: #f0ede6;
-  color: #272622;
-  border: 1px solid #d4d0c8;
-  box-shadow: 0 24px 55px #0008;
+  background: var(--palette-booking-surface);
+  color: var(--palette-booking-ink);
+  border: 1px solid var(--palette-booking-border);
+  box-shadow: 0 24px 55px color-mix(in srgb, var(--palette-black) 53.333333%, transparent);
   border-radius: 3px;
   overflow: hidden;
 }
@@ -54,7 +54,7 @@
 }
 .booking-bar {
   height: 25px;
-  background: #e3dfd6;
+  background: var(--palette-booking-bar);
   display: flex;
   align-items: center;
   gap: 5px;
@@ -64,7 +64,7 @@
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: #aaa69e;
+  background: var(--palette-booking-dot);
 }
 .booking-inner {
   padding: clamp(0.7rem, 2vw, 1.35rem);
@@ -75,7 +75,7 @@
     monospace;
   letter-spacing: 0.13em;
   text-transform: uppercase;
-  color: #5e5a54;
+  color: var(--palette-booking-muted);
 }
 .booking-title {
   font-size: clamp(0.9rem, 1.7vw, 1.5rem);
@@ -88,18 +88,18 @@
   justify-content: space-between;
   gap: 0.5rem;
   padding: 0.65rem 0;
-  border-top: 1px solid #d6d2ca;
+  border-top: 1px solid var(--palette-booking-line);
   font-size: clamp(0.58rem, 0.9vw, 0.74rem);
 }
 .service-row strong {
   font-weight: 650;
 }
 .service-row small {
-  color: #5e5a54;
+  color: var(--palette-booking-muted);
   white-space: nowrap;
 }
 .service-row.selected strong {
-  color: #b13b18;
+  color: var(--palette-accent-strong);
 }
 .calendar-grid {
   display: grid;
@@ -112,20 +112,20 @@
   padding: 0.32em 0;
 }
 .calendar-grid .picked {
-  background: #f26a3b;
-  color: #171510;
+  background: var(--color-accent);
+  color: var(--palette-booking-selection-ink);
   border-radius: 50%;
 }
 .summary-line {
   display: flex;
   justify-content: space-between;
-  border-top: 1px solid #d6d2ca;
+  border-top: 1px solid var(--palette-booking-line);
   padding: 0.55rem 0;
   font-size: clamp(0.54rem, 0.82vw, 0.73rem);
 }
 .concept-label {
   margin-top: 1.1rem;
-  color: #b4b0a7;
+  color: var(--color-muted);
   text-align: right;
 }
 

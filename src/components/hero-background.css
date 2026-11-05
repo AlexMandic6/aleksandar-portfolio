@@ -4,11 +4,10 @@
   overflow: hidden;
   pointer-events: none;
   contain: strict;
-  background: #10100f;
+  background: var(--color-canvas);
 }
 
-.hero-background-fallback,
-.hero-background-liquid {
+.hero-background-fallback {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -16,17 +15,17 @@
 }
 
 .hero-background-fallback {
-  background: radial-gradient(ellipse at 60% 45%, #141519, #10100f 70%);
+  background: radial-gradient(
+    ellipse at 60% 45%,
+    var(--palette-hero-glow),
+    var(--color-canvas) 70%
+  );
 }
 
-.hero-background-liquid {
-  visibility: hidden;
-}
-.hero-background:has(.hero-background-liquid[data-ready]) .hero-background-fallback {
-  visibility: hidden;
-}
-.hero-background-liquid[data-ready] {
-  visibility: visible;
+.hero-background .hero-background-ghost {
+  position: absolute;
+  inset: 0;
+  opacity: 0.7;
 }
 
 @media (max-width: 767px) {

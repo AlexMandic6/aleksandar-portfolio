@@ -1,42 +1,42 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { createLiquidBackground } from "./motion/liquid-background";
+import { useSyncExternalStore } from "react";
+import { colors } from "@/styles/colors";
+import GhostFibers from "./ghost-fibers";
 import "./hero-background.css";
 
+const animatedBackgroundQuery = "(min-width: 768px) and (prefers-reduced-motion: no-preference)";
+
+function subscribeToAnimationPreference(onChange: () => void) {
+  const media = window.matchMedia(animatedBackgroundQuery);
+  media.addEventListener("change", onChange);
+  return () => media.removeEventListener("change", onChange);
+}
+
+const canAnimate = () => window.matchMedia(animatedBackgroundQuery).matches;
+const serverCanAnimate = () => false;
+
 export function HeroBackground() {
-  const root = useRef<HTMLDivElement>(null);
-  const canvas = useRef<HTMLCanvasElement>(null);
-
-  useEffect(() => {
-    const field = root.current;
-    const surface = canvas.current;
-    const hero = field?.closest<HTMLElement>(".hero");
-    if (!field || !surface || !hero) return;
-
-    // Primary pointer capabilities can report touch even when a mouse is in use.
-    // The renderer responds to actual pointer input instead of excluding those devices.
-    const media = window.matchMedia(
-      "(min-width: 768px) and (prefers-reduced-motion: no-preference)",
-    );
-    let dispose: (() => void) | undefined;
-    const sync = () => {
-      dispose?.();
-      dispose = undefined;
-      if (media.matches) dispose = createLiquidBackground(surface, hero);
-    };
-    sync();
-    media.addEventListener("change", sync);
-    return () => {
-      media.removeEventListener("change", sync);
-      dispose?.();
-    };
-  }, []);
+  const animated = useSyncExternalStore(
+    subscribeToAnimationPreference,
+    canAnimate,
+    serverCanAnimate,
+  );
 
   return (
-    <div ref={root} className="hero-background" aria-hidden="true">
+    <div className="hero-background" aria-hidden="true" data-effect="ghost-fibers">
       <div className="hero-background-fallback" />
-      <canvas ref={canvas} className="hero-background-liquid" />
+      {animated && (
+        <GhostFibers
+          className="hero-background-ghost"
+          glowColor={colors["hero-fiber-glow"]}
+          lineColor={colors["hero-fiber-line"]}
+          secondaryColor={colors["hero-fiber-secondary"]}
+          layers={2}
+          dpr={1.5}
+          speed={0.1}
+        />
+      )}
     </div>
   );
 }
