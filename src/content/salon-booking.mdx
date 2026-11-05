@@ -8,7 +8,10 @@ I built a customer journey from choosing a service to selecting an available tim
 
 The time a customer sees may be taken before they submit. The booking action validates the request, then Postgres checks availability again inside the appointment transaction. A database constraint prevents overlapping reservations for the same employee. If the selected time has gone, the customer returns to updated availability.
 
-<ol className="case-flow" aria-label="How an appointment is reserved">
+<ol
+  className="case-flow [&_li]:min-w-0 [&_li]:min-h-44 [&_li]:p-[1.4rem] [&_li]:[border:1px_solid_var(--color-line)] [&_li]:bg-case-surface [&_li]:[counter-increment:case-step] [&_strong]:block [&_strong]:text-booking-surface [&_strong]:text-[1.2rem] [&_span]:block [&_span]:mt-2 [&_span]:text-muted [&_span]:leading-[1.55] [@media(max-width:767px)]:[&_li]:min-h-0 grid grid-cols-[repeat(2,_minmax(0,_1fr))] gap-4 mt-8 list-none [counter-reset:case-step] [@media(max-width:767px)]:grid-cols-[1fr]"
+  aria-label="How an appointment is reserved"
+>
   <li>
     <strong>Calculate</strong>
     <span>Working hours, breaks and existing appointments produce available start times.</span>

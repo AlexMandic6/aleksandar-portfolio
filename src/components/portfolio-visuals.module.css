@@ -1,0 +1,73 @@
+.visual :global(.hero-name) > [data-hero-line] {
+  display: block;
+  perspective: 900px;
+  white-space: nowrap;
+}
+.visual :global(.hero-name) > [data-hero-line]:last-child {
+  margin-left: clamp(2rem, 6vw, 6rem);
+}
+.visual :global(.hero-name) [data-hero-letter],
+.visual :global(.hero-name) [data-hero-dot] {
+  display: inline-block;
+  transform-origin: 50% 85%;
+}
+.visual :global(.hero-name) [data-hero-dot] {
+  color: var(--color-accent);
+}
+.visual :global(.hero-index)::before {
+  content: "";
+  width: 36px;
+  height: 1px;
+  background: var(--color-accent);
+}
+.visual :global(.work-date)::after {
+  content: "";
+  position: absolute;
+  top: 7.5rem;
+  bottom: -1.5rem;
+  left: 0.4rem;
+  width: 1px;
+  background: var(--color-line);
+}
+.visual :global(.work-entry):last-child :global(.work-date)::after {
+  bottom: 1rem;
+}
+.visual :global(.work-story--xsolla) {
+  --work-tint: var(--palette-work-xsolla-tint);
+}
+.visual :global(.work-story--xsolla) :global(.work-logo-panel) {
+  background: var(--palette-logo-xsolla-surface);
+}
+.visual :global(.work-story--villeroy-boch) :global(.work-logo-panel) {
+  background: var(--palette-white);
+}
+.visual :global(.work-story--electrolux) :global(.work-logo-panel) {
+  background: var(--palette-logo-electrolux-surface);
+}
+.visual :global(.work-story--xsolla) :global(.work-logo) {
+  max-width: 10.5rem;
+}
+.visual :global(.work-story--xsolla) :global(.work-technologies) li {
+  border-color: var(--palette-tag-xsolla-border);
+  background: var(--palette-tag-xsolla-surface);
+  color: var(--palette-tag-xsolla-ink);
+}
+
+.visual :global(.case-flow) li::before {
+  content: "0" counter(case-step);
+  display: block;
+  margin-bottom: 1.2rem;
+  color: var(--color-accent);
+  font:
+    700 0.7rem ui-monospace,
+    monospace;
+  letter-spacing: 0.12em;
+}
+@media (max-width: 767px) {
+  .visual :global(.hero-name) > [data-hero-line]:last-child {
+    margin-left: 0;
+  }
+  .visual :global(.work-date)::after {
+    content: none;
+  }
+}

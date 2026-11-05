@@ -1,5 +1,6 @@
 "use client";
 
+import styles from "../portfolio-visuals.module.css";
 import { useRef } from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -75,5 +76,9 @@ export function HeroMotion({ children }: { children: React.ReactNode }) {
     },
     { scope: root },
   );
-  return <div ref={root}>{children}</div>;
+  return (
+    <div ref={root} className={styles.visual}>
+      {children}
+    </div>
+  );
 }

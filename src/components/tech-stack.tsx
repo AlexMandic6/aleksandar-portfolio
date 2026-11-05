@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useRef, useState } from "react";
+import { useId, useRef, useState, type CSSProperties } from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import { MotionPathPlugin } from "gsap/MotionPathPlugin";
@@ -8,22 +8,68 @@ import styles from "./tech-stack.module.css";
 
 gsap.registerPlugin(useGSAP, MotionPathPlugin);
 
-const technologies = [
-  { key: "react", name: "React", detail: "UI & interaction" },
-  { key: "typescript", name: "TypeScript", detail: "Typed components" },
-  { key: "nextjs", name: "Next.js", detail: "React framework" },
-  { key: "supabase", name: "Supabase", detail: "Data & authentication" },
-  { key: "salesforce", name: "Salesforce", detail: "Commerce Cloud" },
-  { key: "lwc", name: "LWC", detail: "Lightning Web Components" },
-];
+type TechNodeStyle = CSSProperties & {
+  "--node-x": string;
+  "--node-y": string;
+  "--brand": string;
+};
 
-const connections = [
-  { path: "M231.34 45.179 Q192 108 192 192", color: "var(--palette-tech-react)" },
-  { path: "M338.821 152.66 Q264 144 192 192", color: "var(--palette-tech-typescript)" },
-  { path: "M84.52 84.52 Q160 104 192 192", color: "var(--color-ink)" },
-  { path: "M299.48 299.48 Q216 264 192 192", color: "var(--palette-tech-supabase)" },
-  { path: "M45.179 231.34 Q120 248 192 192", color: "var(--palette-tech-salesforce)" },
-  { path: "M152.66 338.821 Q192 276 192 192", color: "var(--palette-tech-lwc)" },
+// Each point and curve is hand-composed; keep identity and geometry together.
+const technologies = [
+  {
+    key: "react",
+    name: "React",
+    detail: "UI & interaction",
+    x: "60.244921%",
+    y: "11.765436%",
+    path: "M231.34 45.179 Q192 108 192 192",
+    color: "var(--palette-tech-react)",
+  },
+  {
+    key: "typescript",
+    name: "TypeScript",
+    detail: "Typed components",
+    x: "88.234564%",
+    y: "39.755079%",
+    path: "M338.821 152.66 Q264 144 192 192",
+    color: "var(--palette-tech-typescript)",
+  },
+  {
+    key: "nextjs",
+    name: "Next.js",
+    detail: "React framework",
+    x: "22.010357%",
+    y: "22.010357%",
+    path: "M84.52 84.52 Q160 104 192 192",
+    color: "var(--color-ink)",
+  },
+  {
+    key: "supabase",
+    name: "Supabase",
+    detail: "Data & authentication",
+    x: "77.989643%",
+    y: "77.989643%",
+    path: "M299.48 299.48 Q216 264 192 192",
+    color: "var(--palette-tech-supabase)",
+  },
+  {
+    key: "salesforce",
+    name: "Salesforce",
+    detail: "Commerce Cloud",
+    x: "11.765436%",
+    y: "60.244921%",
+    path: "M45.179 231.34 Q120 248 192 192",
+    color: "var(--palette-tech-salesforce)",
+  },
+  {
+    key: "lwc",
+    name: "LWC",
+    detail: "Lightning Web Components",
+    x: "39.755079%",
+    y: "88.234564%",
+    path: "M152.66 338.821 Q192 276 192 192",
+    color: "var(--palette-tech-lwc)",
+  },
 ];
 
 function TechSymbol({ technology }: { technology: string }) {
@@ -138,9 +184,9 @@ export function TechStack() {
           timeline.fromTo(pulse, { opacity: 0 }, { opacity: 0.9, duration: 0.25 }, start);
           timeline.fromTo(
             pulse,
-            { motionPath: { path: connections[index].path, start: 0, end: 0 } },
+            { motionPath: { path: technologies[index].path, start: 0, end: 0 } },
             {
-              motionPath: { path: connections[index].path },
+              motionPath: { path: technologies[index].path },
               duration: 2.4,
               ease: "none",
             },
@@ -167,24 +213,30 @@ export function TechStack() {
   );
 
   return (
-    <section ref={root} className={styles.showcase} aria-labelledby={`${id}-title`}>
-      <div className={styles.caption}>
+    <section
+      ref={root}
+      className={`tech-showcase relative z-2 min-w-0 w-[min(100%,_24rem)] m-[3.5rem_auto_0] text-ink [@media(min-width:1024px)]:w-full [@media(min-width:1024px)]:m-[0.15rem_0_0] ${styles.showcase}`}
+      aria-labelledby={`${id}-title`}
+    >
+      <div className="tech-caption flex items-center justify-between gap-3 text-muted">
         <h2 id={`${id}-title`} className="eyebrow">
           Tech stack
         </h2>
-        <span className={styles.captionDetail}>Connected by craft</span>
+        <span className="tech-captionDetail text-[0.65rem] whitespace-nowrap">
+          Connected by craft
+        </span>
       </div>
       <div className={styles.diagram}>
         <svg className={styles.connections} viewBox="0 0 384 384" aria-hidden="true">
-          {connections.map((connection) => (
-            <path key={connection.path} d={connection.path} className={styles.path} />
+          {technologies.map((technology) => (
+            <path key={technology.path} d={technology.path} className={styles.path} />
           ))}
-          {connections.map((connection) => (
+          {technologies.map((technology) => (
             <g
-              key={connection.path}
+              key={technology.path}
               className={styles.pulse}
               data-tech-pulse
-              fill={connection.color}
+              fill={technology.color}
             >
               <circle r="9" opacity=".12" />
               <circle r="3" />
@@ -194,12 +246,19 @@ export function TechStack() {
         <div className={styles.hub} aria-hidden="true">
           <span>&lt;/&gt;</span>
         </div>
-        <ul className={styles.nodes} aria-label="Technologies I work with">
+        <ul className="tech-nodes p-0 m-0 list-none" aria-label="Technologies I work with">
           {technologies.map((technology) => (
             <li
               className={styles.node}
               key={technology.key}
               data-technology={technology.key}
+              style={
+                {
+                  "--node-x": technology.x,
+                  "--node-y": technology.y,
+                  "--brand": technology.color,
+                } as TechNodeStyle
+              }
               data-highlighted={highlighted === technology.key ? "" : undefined}
               onPointerEnter={(event) => {
                 if (event.pointerType !== "touch") setHighlighted(technology.key);
@@ -214,14 +273,20 @@ export function TechStack() {
               <div className={styles.symbol}>
                 <TechSymbol technology={technology.key} />
               </div>
-              <h3>{technology.name}</h3>
-              <p>{technology.detail}</p>
+              <h3 className="mt-[clamp(0.4rem,_2.9167cqi,_0.7rem)] [font-family:'Space_Grotesk',_'Segoe_UI',_sans-serif] text-[clamp(0.75rem,_3.75cqi,_0.9rem)] font-[500] leading-[1.25] tracking-[-0.025em]">
+                {technology.name}
+              </h3>
+              <p className="max-w-[16ch] m-[0.2rem_auto_0] text-muted text-[clamp(0.6rem,_2.7083cqi,_0.65rem)] leading-[1.5] [transition:color_180ms_ease]">
+                {technology.detail}
+              </p>
             </li>
           ))}
         </ul>
       </div>
-      <div className={styles.footer}>
-        <p className={styles.context}>Frontend / Enterprise / Commerce</p>
+      <div className="tech-footer flex flex-wrap items-center justify-between gap-[0.6rem_1rem] mt-18 pt-4 [border-top:1px_solid_var(--color-line)]">
+        <p className="tech-context text-muted [font:0.55rem_ui-monospace,_monospace]">
+          Frontend / Enterprise / Commerce
+        </p>
       </div>
     </section>
   );

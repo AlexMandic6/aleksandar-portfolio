@@ -36,25 +36,35 @@ export function Contact({ links }: { links: Profile["links"] }) {
   return (
     <section id="contact" className="wrap section-pad section-line" aria-labelledby="contact-title">
       <p className="eyebrow accent">03 / Contact</p>
-      <h2 id="contact-title" className="contact-heading display">
+      <h2
+        id="contact-title"
+        className="contact-heading display text-[clamp(3.2rem,_8vw,_8.6rem)] leading-[0.95] m-[2rem_0_3rem]"
+      >
         Let’s make
         <br />
         <span className="accent">something good.</span>
       </h2>
       {items.length ? (
-        <ul className="contact-links">
+        <ul className="contact-links [&_li]:min-w-0 [&_li]:[border-top:1px_solid_var(--color-line)] grid grid-cols-[repeat(2,_minmax(0,_1fr))] gap-[0_clamp(1.5rem,_5vw,_5rem)] [@media(max-width:767px)]:grid-cols-[1fr]">
           {items.map((item) => (
             <li key={item.label}>
               <a
-                className="contact-link"
+                className="contact-link [&:is(:hover,:focus-visible)_.contact-link-detail]:text-accent grid grid-cols-[minmax(0,_1fr)_auto] items-center gap-[0.6rem_1rem] p-[1.6rem_0_1.8rem]"
                 href={item.href}
                 {...(item.href.startsWith("https:")
                   ? { target: "_blank", rel: "noopener noreferrer" }
                   : {})}
               >
-                <span className="eyebrow contact-link-label">{item.label}</span>
-                <span className="contact-link-detail">{item.detail}</span>
-                <span className="contact-link-arrow" aria-hidden="true">
+                <span className="eyebrow contact-link-label [grid-column:1] text-muted">
+                  {item.label}
+                </span>
+                <span className="contact-link-detail [grid-column:1] min-w-0 text-[clamp(1.15rem,_2vw,_1.8rem)] font-semibold tracking-[-0.045em] wrap-[anywhere] [transition:color_0.2s]">
+                  {item.detail}
+                </span>
+                <span
+                  className="contact-link-arrow [grid-column:2] [grid-row:1_/_3] self-center text-accent text-[1.5rem] [transition:transform_0.2s]"
+                  aria-hidden="true"
+                >
                   ↗
                 </span>
               </a>
@@ -62,7 +72,9 @@ export function Contact({ links }: { links: Profile["links"] }) {
           ))}
         </ul>
       ) : (
-        <p className="contact-note">Contact details will be added before launch.</p>
+        <p className="contact-note text-muted leading-[1.7]">
+          Contact details will be added before launch.
+        </p>
       )}
     </section>
   );

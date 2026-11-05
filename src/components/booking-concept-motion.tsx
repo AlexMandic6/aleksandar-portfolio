@@ -1,5 +1,6 @@
 "use client";
 
+import styles from "./booking-concept.module.css";
 import { useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -176,7 +177,7 @@ export function BookingConceptMotion({
   );
 
   return (
-    <figure ref={root} className="booking-figure">
+    <figure ref={root} className={`booking-figure w-full ${styles.artwork}`}>
       {children}
     </figure>
   );

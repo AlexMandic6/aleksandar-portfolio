@@ -2,16 +2,19 @@ export function About() {
   return (
     <section
       id="about"
-      className="wrap section-pad section-line section-split"
+      className="wrap section-pad section-line section-split grid grid-cols-[1fr_1fr] gap-12 [@media(max-width:767px)]:block"
       aria-labelledby="about-title"
     >
       <div>
         <p className="eyebrow accent">02 / About</p>
-        <h2 id="about-title" className="about-statement display">
+        <h2
+          id="about-title"
+          className="about-statement display text-[clamp(2rem,_4vw,_4.5rem)] leading-[1.1] max-w-[16ch] m-[2rem_0_0]"
+        >
           Building for the people on the other side of the screen.
         </h2>
       </div>
-      <div className="about-detail">
+      <div className="about-detail [&_p_+_p]:mt-[1.4rem] [&_.eyebrow]:text-ink [&_.eyebrow]:leading-[1.8] max-w-128 self-end leading-[1.8] text-muted text-[1.08rem] [@media(max-width:767px)]:mt-8">
         <p>
           I’m Aleksandar Mandić, a frontend engineer working with React and TypeScript across
           enterprise and e-commerce interfaces.
