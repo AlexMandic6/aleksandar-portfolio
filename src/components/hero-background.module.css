@@ -30,6 +30,9 @@
 
 @media (max-width: 767px) {
   .background {
-    opacity: 0.45;
+    bottom: auto;
+    height: clamp(18rem, 48svh, 24rem);
+    opacity: 0.85;
+    mask-image: linear-gradient(to bottom, #000 60%, transparent);
   }
 }

@@ -8,11 +8,11 @@ export function Hero() {
   return (
     <HeroMotion>
       <section
-        className="hero wrap relative pt-[clamp(4.5rem,_9vw,_9rem)] pb-28 min-h-[min(820px,_92vh)] [@media(max-width:1023px)]:min-h-0 [@media(max-width:767px)]:pt-20 [@media(max-width:767px)]:pb-20"
+        className="hero relative pt-[clamp(4.5rem,_9vw,_9rem)] pb-28 min-h-[min(820px,_92vh)] [@media(max-width:1023px)]:min-h-0 [@media(max-width:767px)]:pt-[clamp(13rem,_calc(24svh_+_4rem),_16rem)] [@media(max-width:767px)]:pb-20"
         aria-labelledby="hero-title"
       >
         <HeroBackground />
-        <div className="hero-content relative [@media(min-width:1024px)]:grid [@media(min-width:1024px)]:grid-cols-[minmax(0,_1fr)_clamp(20rem,_28vw,_24rem)] [@media(min-width:1024px)]:gap-[clamp(2rem,_4vw,_4rem)] [@media(min-width:1024px)]:items-start">
+        <div className="hero-content wrap relative [@media(min-width:1024px)]:grid [@media(min-width:1024px)]:grid-cols-[minmax(0,_1fr)_clamp(20rem,_28vw,_24rem)] [@media(min-width:1024px)]:gap-[clamp(2rem,_4vw,_4rem)] [@media(min-width:1024px)]:items-start">
           <div className="hero-copy relative z-2 [@media(min-width:1024px)]:min-w-0">
             <p className="hero-index eyebrow flex items-center gap-4 text-muted">
               Portfolio / 2026

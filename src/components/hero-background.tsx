@@ -5,7 +5,7 @@ import { colors } from "@/styles/colors";
 import GhostFibers from "./ghost-fibers";
 import styles from "./hero-background.module.css";
 
-const animatedBackgroundQuery = "(min-width: 768px) and (prefers-reduced-motion: no-preference)";
+const animatedBackgroundQuery = "(prefers-reduced-motion: no-preference)";
 
 function subscribeToAnimationPreference(onChange: () => void) {
   const media = window.matchMedia(animatedBackgroundQuery);
