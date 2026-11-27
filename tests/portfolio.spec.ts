@@ -125,10 +125,10 @@ test("basic accessibility on both routes", async ({ page }) => {
   }
 });
 
-test("core content and links survive without JavaScript", async ({ browser }) => {
-  const context = await browser.newContext({ javaScriptEnabled: false });
+test("core content and links survive without JavaScript", async ({ browser, baseURL }) => {
+  const context = await browser.newContext({ baseURL, javaScriptEnabled: false });
   const page = await context.newPage();
-  await page.goto("http://localhost:3000/");
+  await page.goto("/");
   await expect(page.getByRole("heading", { level: 1 })).toHaveAccessibleName("Aleksandar Mandić");
   await expect(page.locator(".hero").getByRole("link", { name: "Download CV" })).toBeVisible();
   await page.getByRole("link", { name: "View selected work", exact: true }).click();
@@ -137,7 +137,7 @@ test("core content and links survive without JavaScript", async ({ browser }) =>
     "Villeroy & Boch",
     "Electrolux Professional",
   ]);
-  await page.goto("http://localhost:3000/work/salon-booking");
+  await page.goto("/work/salon-booking");
   await expect(page.getByRole("heading", { level: 1 })).toContainText("Salon Booking");
   await expect(page.locator(".case-visual .booking-scene")).toBeVisible();
   await context.close();

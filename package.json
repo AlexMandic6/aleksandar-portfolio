@@ -4,7 +4,7 @@
   "private": true,
   "packageManager": "pnpm@12.16.1",
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --port 3001",
     "dev:host": "npm run dev -- -H 0.0.0.0",
     "build": "next build",
     "start": "next start",

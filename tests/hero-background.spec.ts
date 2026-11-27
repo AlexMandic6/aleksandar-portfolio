@@ -1,5 +1,106 @@
 import { test, expect } from "@playwright/test";
 
+test("hero shows the static fallback when WebGL2 is unavailable", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.addInitScript(() => {
+    HTMLCanvasElement.prototype.getContext = new Proxy(HTMLCanvasElement.prototype.getContext, {
+      apply(target, canvas, args) {
+        return args[0] === "webgl2" ? null : Reflect.apply(target, canvas, args);
+      },
+    });
+  });
+  await page.goto("/");
+  await expect(page.locator(".ghost-fibers-canvas")).toBeAttached();
+  await expect(page.locator(".ghost-fibers-canvas")).toBeHidden();
+  await expect(page.locator(".hero-background-fallback")).toBeVisible();
+});
+
+declare global {
+  interface Window {
+    heroWebGlTest: {
+      fail: boolean;
+      attempts: number;
+      shaders: number;
+      programs: number;
+      framebuffers: number;
+      textures: number;
+      vertexArrays: number;
+    };
+  }
+}
+
+for (const [failure, resource] of [
+  ["programs", "program"],
+  ["textures", "texture"],
+] as const) {
+  test(`hero releases WebGL resources after a ${resource} allocation fails and can restart`, async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await page.addInitScript((failingResource) => {
+      const stats = (window.heroWebGlTest = {
+        fail: true,
+        attempts: 0,
+        shaders: 0,
+        programs: 0,
+        framebuffers: 0,
+        textures: 0,
+        vertexArrays: 0,
+      });
+      const gl = WebGL2RenderingContext.prototype;
+      for (const [create, remove, key] of [
+        ["createShader", "deleteShader", "shaders"],
+        ["createProgram", "deleteProgram", "programs"],
+        ["createFramebuffer", "deleteFramebuffer", "framebuffers"],
+        ["createTexture", "deleteTexture", "textures"],
+        ["createVertexArray", "deleteVertexArray", "vertexArrays"],
+      ] as const) {
+        Reflect.set(
+          gl,
+          create,
+          new Proxy(gl[create], {
+            apply(target, context, args) {
+              if (key === failingResource && ++stats.attempts >= 3 && stats.fail) return null;
+              const resource = Reflect.apply(target, context, args);
+              if (resource) stats[key]++;
+              return resource;
+            },
+          }),
+        );
+        Reflect.set(
+          gl,
+          remove,
+          new Proxy(gl[remove], {
+            apply(target, context, args) {
+              if (args[0]) stats[key]--;
+              return Reflect.apply(target, context, args);
+            },
+          }),
+        );
+      }
+    }, failure);
+    await page.goto("/");
+    await expect
+      .poll(() => page.evaluate(() => window.heroWebGlTest.attempts))
+      .toBeGreaterThanOrEqual(3);
+    const released = { shaders: 0, programs: 0, framebuffers: 0, textures: 0, vertexArrays: 0 };
+    expect(await page.evaluate(() => window.heroWebGlTest)).toMatchObject(released);
+    await expect(page.locator(".ghost-fibers-canvas")).toBeHidden();
+    await expect(page.locator(".hero-background-fallback")).toBeVisible();
+
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await expect(page.locator(".ghost-fibers-canvas")).toHaveCount(0);
+    await page.evaluate(() => {
+      window.heroWebGlTest.fail = false;
+    });
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await expect(page.locator(".ghost-fibers-canvas[data-ready]")).toBeAttached();
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await expect(page.locator(".ghost-fibers-canvas")).toHaveCount(0);
+    await expect.poll(() => page.evaluate(() => window.heroWebGlTest)).toMatchObject(released);
+  });
+}
+
 test("full bleed hero fits the available width with a reserved scrollbar gutter", async ({
   page,
 }) => {
