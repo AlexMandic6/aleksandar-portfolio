@@ -1,7 +1,6 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import { colors } from "@/styles/colors";
 import GhostFibers from "./ghost-fibers";
 import styles from "./hero-background.module.css";
 
@@ -30,18 +29,7 @@ export function HeroBackground() {
       data-effect="ghost-fibers"
     >
       <div className={`hero-background-fallback ${styles.fallback}`} />
-      {animated && (
-        <GhostFibers
-          className={`hero-background-ghost ${styles.ghost}`}
-          glowColor={colors["hero-fiber-glow"]}
-          lineColor={colors["hero-fiber-line"]}
-          secondaryColor={colors["hero-fiber-secondary"]}
-          layers={2}
-          dpr={1.5}
-          speed={0.1}
-          mouseStrength={0.3}
-        />
-      )}
+      {animated && <GhostFibers className={`hero-background-ghost ${styles.ghost}`} />}
     </div>
   );
 }

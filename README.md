@@ -11,7 +11,7 @@ pnpm install
 pnpm run dev
 ```
 
-Open **http://localhost:3000**. The case study is at **http://localhost:3000/work/salon-booking**. The former `/work/saloon-booking` URL permanently redirects there.
+Open **http://localhost:3001**. The case study is at **http://localhost:3001/work/salon-booking**. The former `/work/saloon-booking` URL permanently redirects there.
 
 ## Current scope
 
